@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hankel Matrix Checker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+    
+    <style>
+        html, body {
+            background-color: beige;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: auto;
+        }
+
+        .button.is-primary {
+        	color: #fdfafa;
+            background-color: #A8E6CF; 
+            border-color: transparent;
+        }
+
+        .button.is-link {
+        	color: #080707;
+            background-color: #DCC6E0; 
+            border-color: transparent;
+        }
+
+        .button:hover {
+            opacity: 0.9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Hankel Matrix Checker</h1>
+
+            <div class="field">
+                <label class="label">Matrix size (NxN)</label>
+                <div class="control">
+                    <input class="input" type="number" id="matrixSize" min="2" placeholder="Enter matrix size">
+                </div>
+            </div>
+
+            <button class="button is-primary" onclick="generateMatrixInput()">Generate Matrix</button>
+
+            <div id="matrixInputArea"></div>
+
+            <button class="button is-link" onclick="checkHankelMatrix()">Check if Hankel</button>
+            <div id="result"></div>
+        </div>
+    </section>
+
+    <script>
+        function generateMatrixInput() {
+            const size = parseInt(document.getElementById('matrixSize').value);
+            const matrixInputArea = document.getElementById('matrixInputArea');
+            matrixInputArea.innerHTML = '';
+
+            for (let i = 0; i < size; i++) {
+                const row = document.createElement('div');
+                row.className = 'columns';
+
+                for (let j = 0; j < size; j++) {
+                    const column = document.createElement('div');
+                    column.className = 'column';
+                    const input = document.createElement('input');
+                    input.className = 'input';
+                    input.setAttribute('data-row', i);
+                    input.setAttribute('data-col', j);
+                    input.type = 'number';
+                    column.appendChild(input);
+                    row.appendChild(column);
+                }
+
+                matrixInputArea.appendChild(row);
+            }
+        }
+
+        function checkHankelMatrix() {
+            const size = parseInt(document.getElementById('matrixSize').value);
+            let matrix = [];
+
+            for (let i = 0; i < size; i++) {
+                let row = [];
+                for (let j = 0; j < size; j++) {
+                    const inputValue = document.querySelector(`input[data-row="${i}"][data-col="${j}"]`).value;
+                    row.push(parseInt(inputValue));
+                }
+                matrix.push(row);
+            }
+
+            for (let i = 0; i < size; i++) {
+                for (let j = 0; j < size - i; j++) {
+                    if (matrix[i][j] !== matrix[0][i + j]) {
+                        document.getElementById('result').innerText = 'The matrix is NOT a Hankel matrix.';
+                        return;
+                    }
+                }
+            }
+
+            document.getElementById('result').innerText = 'The matrix is a Hankel matrix.';
+        }
+    </script>
+
+</body>
+
+</html>

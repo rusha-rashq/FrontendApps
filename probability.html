@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-5 justify-content-center">
+            <div class="col-md-6">
+                <h1 class="text-center mb-4">Probability Simulator</h1>
+                <div class="card">
+                    <div class="card-body">
+                        <form id="simulateForm">
+                            <div class="form-group">
+                                <label for="numTosses">Number of coin tosses:</label>
+                                <input id="numTosses" type="number" min="1" max="1000" class="form-control">
+                            </div>
+                            <button id="simulate" type="submit" class="btn btn-primary btn-block">Simulate</button>
+                        </form>
+                        <div id="result" class="mt-4">
+                            <div id="headsProgress" class="progress mb-2" style="height: 25px;">
+                                <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Heads: 0%</div>
+                            </div>
+                            <div id="tailsProgress" class="progress" style="height: 25px;">
+                                <div class="progress-bar bg-danger" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100">Tails: 0%</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+    	document.getElementById('simulateForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            let numTosses = document.getElementById('numTosses').value;
+            let heads = 0;
+            let tails = 0;
+
+            for(let i = 0; i < numTosses; i++) {
+                let result = Math.floor(Math.random() * 2);
+                if(result === 0) {
+                    heads++;
+                } else {
+                    tails++;
+                }
+            }
+
+            let probHeads = (heads / numTosses) * 100;
+            let probTails = (tails / numTosses) * 100;
+
+            let headsProgressBar = document.querySelector('#headsProgress .progress-bar');
+            let tailsProgressBar = document.querySelector('#tailsProgress .progress-bar');
+
+            headsProgressBar.style.width = `${probHeads}%`;
+            headsProgressBar.setAttribute('aria-valuenow', probHeads);
+            headsProgressBar.textContent = `Heads: ${probHeads.toFixed(2)}%`;
+
+            tailsProgressBar.style.width = `${probTails}%`;
+            tailsProgressBar.setAttribute('aria-valuenow', probTails);
+            tailsProgressBar.textContent = `Tails: ${probTails.toFixed(2)}%`;
+        });
+
+    </script>
+</body>
+</html>

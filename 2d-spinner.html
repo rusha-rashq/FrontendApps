@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>2D Spinner</title>
+
+<style>
+    /* Global style for the body */
+    body {
+        min-height: 100vh; 
+        display: grid; 
+        justify-content: center; 
+        align-content: center; 
+        background-color: #000; 
+    }
+
+    /* Style for the wrapper that will contain the spinner */
+    .wrapper {
+        perspective: 1000px; 
+    }
+
+    /* Style for the spinner element */
+    .spinner {
+        width: 2rem; 
+        height: 2.8rem; 
+        background-color: cyan; 
+        animation: 3s linear infinite spin; 
+        backface-visibility: hidden; 
+    }
+
+    /* Keyframes for the spin animation */
+    @keyframes spin {
+        0%, 100% {
+            transform: rotate(0deg); 
+        }
+        30% {
+            transform: rotateX(360deg); 
+        }
+        70% {
+            transform: rotateY(360deg); 
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="spinner"></div> <!-- Spinner element -->
+    </div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transform Effects</title>
+    
+    <!-- Include Tailwind CSS from a CDN for simplicity -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gray-100">
+
+    <div class="min-h-screen flex items-center justify-center bg-pink-500 space-x-20">
+        <!--  scale  -->
+        <div class="h-32 w-32 relative">
+            <div class="absolute inset-0 bg-white opacity-25 rounded-lg shadow-2xl"></div>
+            <div class="transform origin-bottom-left hover:scale-75 transition duration-300 h-full">
+                <div class="h-full bg-white rounded-lg shadow-2xl"></div>
+            </div>
+        </div>
+
+        <div class="h-32 w-32 relative">
+            <div class="absolute inset-0 bg-white opacity-25 rounded-lg shadow-2xl"></div>
+            <div class="transform hover:rotate-45 transition duration-300 h-full">
+                <div class="h-full bg-white rounded-lg shadow-2xl"></div>
+            </div>
+        </div>
+
+        <div class="h-32 w-32 relative">
+            <div class="absolute inset-0 bg-white opacity-25 rounded-lg shadow-2xl"></div>
+            <div class="transform hover:translate-x-1/3 hover:rotate-45 transition duration-300 h-full">
+                <div class="h-full bg-white rounded-lg shadow-2xl"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

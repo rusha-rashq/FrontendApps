@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BMI Calculator</title>
+    <style>
+        body{
+          background: #F73946; 
+          background: -webkit-linear-gradient(left top, #F73946, #FF3875); 
+          background: -o-linear-gradient(bottom right, #F73946, #FF3875);
+          background: -moz-linear-gradient(bottom right, #F73946, #FF3875);
+          background: linear-gradient(to bottom right, #F73946, #FF3875);
+          background-attachment: fixed;
+          background-repeat: no-repeat;
+          height: 100%;
+        }
+        .bmi-calculator{
+          margin: 75px auto;
+          width: 100%;
+          max-width: 500px;
+          display: table;
+          background: #2B2D41;
+          color: #4E5279;
+          border-radius: 5px;
+          box-shadow: 0px 2px 45px 8px #C32B4A;
+        }
+        .result{
+          display: table;
+          width: 100%;
+        }
+        .result-text {
+          width: 100%;
+          display: table-cell;
+          vertical-align: middle;
+          text-align: center;
+          padding: 20px;
+          border: none;
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          background: #4CA456; 
+          background: -webkit-linear-gradient(left top, #4FD24D, #4CA456); 
+          background: -o-linear-gradient(bottom right, #4FD24D, #4CA456);
+          background: -moz-linear-gradient(bottom right, #4FD24D, #4CA456);
+          background: linear-gradient(to bottom right, #4FD24D, #4CA456);
+          transition: all 0.4s ease-in;
+          -webkit-transition-delay: 2s; /* Safari */
+            transition-delay: 2s;
+          box-shadow: 0px 5px 25px 2px #333;
+          h1{
+              color: #fff;
+              font-size: 3em;
+              margin: 8px 0;
+              padding: 0;
+          }
+          small{
+            font-size: 1em;
+            text-transform: uppercase;
+            font-weight: 400;
+            color: #fff;
+          }
+        }
+        .calculator{
+          padding: 20px;  
+        }
+        .calculator-title{
+          font-weight: 400;
+          text-transform: uppercase;
+          font-size: 1.5em;
+          padding: 15px;
+        }
+        .calculator-hr{
+          margin-top: -10px;
+          width: 80%;
+          border: 1.2px solid #F73946;
+          border-radius: 15px;
+        }
+        input[type=range] {
+          -webkit-appearance: none;
+          width: 75%; 
+          height: 4px;
+          background: #27283A;
+          border-radius: 5px;
+          display: inline-block;
+          margin-top: -15px;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+        }
+
+        input[type=range]:focus {
+          outline: none; 
+        }
+
+        input[type=range]::-ms-track {
+          width: 100%;
+          cursor: pointer;
+          background: transparent; 
+          border-color: transparent;
+          color: transparent;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          border: none;
+          height: 14px;
+          width: 14px;
+          border-radius: 50%;
+          background: #F73946;
+          cursor: pointer; 
+        }
+
+        input[type=range]::-moz-range-thumb {
+          height: 14px;
+          width: 14px;
+          border-radius: 50%;
+          background: #F73946;
+          cursor: pointer;
+        }
+
+        input[type=range]::-ms-thumb {
+          height: 14px;
+          width: 14px;
+          border-radius: 50%;
+          background: #F73946;
+          cursor: pointer;
+        }
+        .field-text{
+          font-size: 2em;
+          color: #F73946;
+          font-weight: 700;
+          padding: 8px;
+          display: inline-block;
+        }
+        .label-height:after{
+          content: ' cm';
+          font-size: 0.5em;
+          color: #4E5279;
+          font-weight: 400;
+          text-align: center;
+          margin-top: -12px;
+        }
+        .label-weight:after{
+          content: ' kg';
+          font-size: 0.5em;
+          color: #4E5279;
+          font-weight: 400;
+        }
+        .submit{
+          text-align: center;
+        }
+        #submit{
+          background: #F73946; 
+          background: -webkit-linear-gradient(left top, #F73946, #FF3875); 
+          background: -o-linear-gradient(bottom right, #F73946, #FF3875);
+          background: -moz-linear-gradient(bottom right, #F73946, #FF3875);
+          background: linear-gradient(to bottom right, #F73946, #FF3875);
+          border: none;
+          border-radius: 30px;
+          padding: 4px 25px;
+          color: #2B2D41;
+          font-size: 1.5em;
+          font-weight: 100;
+          transition: all 0.3s ease-in;
+          -webkit-font-smoothing: antialiased;
+          -moz-osx-font-smoothing: grayscale;
+          cursor: pointer;
+          &:hover, &:focus{
+            color: #FFF;
+            outline: none;
+          }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="bmi-calculator">
+                <div class="result">
+                    <div class="result-text">
+                        <h1><span id="bmiValue">24.8</span> kg/m2</h1>
+                        <small id="bmid">Normal</small>
+                    </div>
+                </div>
+                <div class="calculator">
+                    <h2 class="text-center calculator-title">What's Your BMI?</h2>
+                    <hr class="calculator-hr">
+                    <div class="height">
+                        <input class="value_range" id="height" type="range" value="182" min="100" max="250" step="1">
+                        <div class="label-height field-text">0</div>
+                    </div>
+                    <div class="weight">
+                        <input class="value_range" id="weight" type="range" value="82" min="0" max="250" step="1">
+                        <div class="label-weight field-text">0</div>
+                    </div>
+                    <div class="submit">
+                        <input type="submit" id="submit" value="Calculate" class="submit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Adding jQuery before your script for functionality -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script>
+    // JavaScript content starts here
+    var rangeSlider = function(){
+  var slider = $('.row'),
+      range = $('.value_range'),
+      value = $('.field-text');
+    
+  slider.each(function(){
+
+    value.each(function(){
+      var value = $(this).prev().attr('value');
+      $(this).html(value);
+    });
+
+    range.on('input', function(){
+      $(this).next(value).html(this.value);
+    });
+  });
+};
+rangeSlider();
+
+$('#submit').click(function(){
+  var h = $('#height').val() / 100;
+  var w = $('#weight').val();
+  var bmi = h * h ;
+  bmi = w/bmi;
+  bmi = (bmi).toFixed(1);
+  $('#bmiValue').html(bmi + " ");
+  if (bmi < 18.5) {
+    //Underweight
+    $('.result-text').css('background','-webkit-linear-gradient(left top, #27939D, #07658F)');
+    $('.result-text').css('background','-o-linear-gradient(bottom right, #27939D, #07658F)');
+    $('.result-text').css('background','-moz-linear-gradient(bottom right, #27939D, #07658F)');
+    $('.result-text').css('background','linear-gradient(to bottom right, #27939D, #07658F)');
+    $('#bmid').html("Underweight");
+  } else if ((18.5 <= bmi) && (bmi <= 24.9)) {
+    //Normal weight
+    $('.result-text').css('background','-webkit-linear-gradient(left top, #4FD24D, #4CA456)');
+    $('.result-text').css('background','-o-linear-gradient(bottom right, #4FD24D, #4CA456)');
+    $('.result-text').css('background','-moz-linear-gradient(bottom right, #4FD24D, #4CA456)');
+    $('.result-text').css('background','linear-gradient(to bottom right, #4FD24D, #4CA456)');
+    $('#bmid').html("Normal");
+  } else if ((25 <= bmi) && (bmi <= 29.9)) {
+    //Overweight   
+    $('.result-text').css('background','-webkit-linear-gradient(left top, #EF7532, #DC3A26)');
+    $('.result-text').css('background','-o-linear-gradient(bottom right, #EF7532, #DC3A26)');
+    $('.result-text').css('background','-moz-linear-gradient(bottom right, #EF7532, #DC3A26)');
+    $('.result-text').css('background','linear-gradient(to bottom right, #EF7532, #DC3A26)');
+    $('#bmid').html("Overweight");
+  } else {
+    //Obese
+    $('.result-text').css('background','-webkit-linear-gradient(left top, #F73946, #FF3875)');
+    $('.result-text').css('background','-o-linear-gradient(bottom right, #F73946, #FF3875)');
+    $('.result-text').css('background','-moz-linear-gradient(bottom right, #F73946, #FF3875)');
+    $('.result-text').css('background','linear-gradient(to bottom right, #F73946, #FF3875)');
+     $('#bmid').html("Obese");
+  }
+  console.log(bmi);
+});
+
+$('input[type="range"]').change(function () {
+ var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+    
+    $(this).css('background-image',
+                '-webkit-gradient(linear, left top, right top, '
+                + 'color-stop(' + val + ', #F73946), '
+                + 'color-stop(' + val + ', #27283A)'
+                + ')'
+                );
+});
+
+$('.value_range').each(function (){
+   var val = ($(this).val() - $(this).attr('min')) / ($(this).attr('max') - $(this).attr('min'));
+    
+    $(this).css('background-image',
+                '-webkit-gradient(linear, left top, right top, '
+                + 'color-stop(' + val + ', #F73946), '
+                + 'color-stop(' + val + ', #27283A)'
+                + ')'
+                );
+});
+    // JavaScript content ends here
+</script>
+</body>
+</html>

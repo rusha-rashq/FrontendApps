@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
+    <title>Political Dictionary</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+
+        #search {
+            flex-grow: 1;
+            padding: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #result {
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: white;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container py-5">
+        <h1 class="text-center mb-5">Political Dictionary</h1>
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" id="search" placeholder="Search term">
+                    <button class="btn btn-primary" onclick="searchTerm()">Search</button>
+                </div>
+                <div id="result" class="alert alert-info" role="alert" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+    <script>
+    	let dictionary = {
+            "democracy": "A system of government where the citizens exercise power by voting.",
+            "republic": "A form of government in which power is held by the people and their elected representatives.",
+            "capitalism": "An economic and political system in which a country's trade and industry are controlled by private owners for profit.",
+            "socialism": "A political and economic theory advocating for community or state ownership and administration of the means of production and distribution of goods.",
+            "communism": "A political theory advocating class war and leading to a society in which all property is publicly owned and each person works and is paid according to their abilities and needs.",
+            "oligarchy": "A form of government in which power rests with a small number of people. These people may be distinguished by wealth, education, corporate, religious, or military control.",
+            "monarchy": "A form of government in which a single person holds supreme authority in ruling a country, usually for life or until abdication.",
+            "anarchy": "A society without a publicly enforced government or violently enforced political authority.",
+            "fascism": "A form of far-right, authoritarian government that is characterized by dictatorial power, forcible suppression of opposition, as well as strong regimentation of society and the economy.",
+            "populism": "A political approach that seeks to disrupt the existing social order by appealing to the working class or the 'common people'.",
+            "liberalism": "A political philosophy based on belief in progress, the essential goodness of the human race, and the autonomy of the individual and standing for the protection of political and civil liberties.",
+            "conservatism": "A political and social philosophy promoting traditional social institutions and values. It is associated with opposition to change and holding onto traditional values and attitudes.",
+            "partisanship": "The strong, often prejudiced, support of a political party, group, or cause.",
+            "pluralism": "A condition or system in which multiple groups, principles, sources of authority, etc., coexist in mutual tolerance.",
+            "lobbying": "The act of attempting to influence decisions made by officials in a government, most often legislators or members of regulatory agencies.",
+            "gerrymandering": "A practice that attempts to establish a political advantage for a particular party or group by manipulating district boundaries, which is most commonly used in first-past-the-post electoral systems.",
+            "bipartisanship": "Agreement or cooperation between two political parties that usually oppose each other's policies.",
+            "federalism": "A system of government in which the same territory is controlled by two levels of government. Typically, a federation has an overarching central government that governs nationwide issues, and smaller subdivisions govern local issues.",
+            "nationalism": "An ideology that emphasizes loyalty, devotion, or allegiance to a nation or nation-state and holds that such obligations outweigh other individual or group interests.",
+            "sovereignty": "The full right and power of a governing body over itself, without any interference from outside sources or bodies.",
+            "imperialism": "A policy or ideology by which a nation extends its power by acquiring territories. It may also include the exploitation of those territories for the benefit of the colonizing country.",
+            "authoritarianism": "A form of government characterized by strong central power and limited political freedoms.",
+            "totalitarianism": "A system of government that is centralized, dictatorial, and requires complete subservience to the state.",
+            "diplomacy": "The practice of conducting negotiations between representatives of states or groups, so as to influence the decisions and behavior of foreign governments and peoples.",
+            "isolationism": "A category of foreign policies institutionalized by leaders who assert that nations' best interests are best served by keeping the affairs of other countries at a distance."
+        };
+
+        function searchTerm() {
+            let term = document.getElementById("search").value;
+            let result = document.getElementById("result");
+
+            if (dictionary[term]) {
+                result.style.display = 'block'; 
+                result.className = 'alert alert-success'; 
+                result.innerHTML = `<strong>${term}:</strong> ${dictionary[term]}`;
+            } else {
+                result.style.display = 'block'; 
+                result.className = 'alert alert-danger'; 
+                result.innerHTML = "Term not found.";
+            }
+        }
+
+
+    </script>
+</body>
+</html>

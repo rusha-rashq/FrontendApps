@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Symmetric Matrix</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <style>
+        body {
+            background: linear-gradient(90deg, #eaf0be, #dd9e31);
+        }
+        .container {
+            padding-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2 class="header center-align black-text">Symmetric Matrix Checker</h2>
+
+    <div class="row">
+        <div class="input-field col s6">
+            <input id="numRows" type="number" class="validate">
+            <label for="numRows">Number of Rows</label>
+        </div>
+        <div class="input-field col s6">
+            <input id="numCols" type="number" class="validate">
+            <label for="numCols">Number of Columns</label>
+        </div>
+    </div>
+
+    <div class="center-align">
+        <button class="btn waves-effect waves-light" onclick="generateMatrix()">Generate Matrix</button>
+    </div>
+
+    <table id="matrixTable" class="highlight centered"></table>
+
+    <div class="center-align" style="margin-top:20px;">
+        <button class="btn waves-effect waves-light" onclick="checkSymmetry()">Check Symmetry</button>
+    </div>
+
+    <h5 class="header center-align white-text result" id="result"></h5>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+<script>
+    function generateMatrix() {
+        const numRows = +document.getElementById('numRows').value;
+        const numCols = +document.getElementById('numCols').value;
+
+        if (numRows !== numCols) {
+            M.toast({html: 'Matrix must be square for symmetry check!'});
+            return;
+        }
+
+        let tableHTML = '';
+        for (let i = 0; i < numRows; i++) {
+            tableHTML += '<tr>';
+            for (let j = 0; j < numCols; j++) {
+                tableHTML += '<td><input type="number" class="matrixCell validate"></td>';
+            }
+            tableHTML += '</tr>';
+        }
+        document.getElementById('matrixTable').innerHTML = tableHTML;
+    }
+
+    function checkSymmetry() {
+        const cells = document.querySelectorAll(".matrixCell");
+        const size = Math.sqrt(cells.length);
+
+        // Create matrix from inputs
+        let matrix = [];
+        for (let i = 0; i < size; i++) {
+            let row = [];
+            for (let j = 0; j < size; j++) {
+                row.push(+cells[i*size + j].value);
+            }
+            matrix.push(row);
+        }
+
+        // Check if symmetric
+        for (let i = 0; i < size; i++) {
+            for (let j = 0; j < size; j++) {
+                if (matrix[i][j] !== matrix[j][i]) {
+                    document.getElementById("result").innerText = "The matrix is NOT symmetric.";
+                    return;
+                }
+            }
+        }
+        document.getElementById("result").innerText = "The matrix is symmetric.";
+    }
+</script>
+
+</body>
+</html>

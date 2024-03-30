@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Niramit:300,300i,700");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "K2D", sans-serif;
+            background: #1e1e2f;
+            letter-spacing: 1px;    
+        }
+        .container {
+            max-width: 650px;
+            margin: 50px auto;
+        }
+        p {
+            font-weight: 300;
+            line-height: 1.5;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 4rem;
+            margin: 0 0 0 30px;
+            color: white;
+        }
+        .timeline:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: #27293d;
+        }
+        .timeline .timeline-container {
+            position: relative;
+            margin-bottom: 2.5rem;
+        }
+        .timeline .timeline-container .timeline-icon {
+            position: absolute;
+            left: -88px;
+            top: 4px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            text-align: center;
+            font-size: 2rem;
+            background: #4f537b;
+        }
+        .timeline .timeline-container .timeline-icon i {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+        .timeline .timeline-container .timeline-icon img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+        }
+        .timeline .timeline-container .timeline-body {
+            background: #27293d;
+            border-radius: 3px;
+            padding: 20px 20px 15px;
+            box-shadow: 1px 3px 9px rgba(0, 0, 0, 0.1);
+        }
+        .timeline .timeline-container .timeline-body:before {
+            content: "";
+            background: inherit;
+            width: 20px;
+            height: 20px;
+            display: block;
+            position: absolute;
+            left: -10px;
+            transform: rotate(45deg);
+            border-radius: 0 0 0 2px;
+        }
+        .timeline .timeline-container .timeline-body .timeline-title {
+            margin-bottom: 1.4rem;
+        }
+        .timeline .timeline-container .timeline-body .timeline-title .badge {
+            background: #4f537b;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        .timeline .timeline-container .timeline-body .timeline-subtitle {
+            font-weight: 300;
+            font-style: italic;
+            opacity: 0.4;
+            margin-top: 16px;
+            font-size: 11px;
+        }
+        .timeline .timeline-container.primary .badge,
+        .timeline .timeline-container.primary .timeline-icon {
+            background: #1d8cf8 !important;
+        }
+        .timeline .timeline-container.info .badge,
+        .timeline .timeline-container.info .timeline-icon {
+            background: #11cdef !important;
+        }
+        .timeline .timeline-container.success .badge,
+        .timeline .timeline-container.success .timeline-icon {
+            background: #00bf9a !important;
+        }
+        .timeline .timeline-container.warning .badge,
+        .timeline .timeline-container.warning .timeline-icon {
+            background: #ff8d72 !important;
+        }
+        .timeline .timeline-container.danger .badge,
+        .timeline .timeline-container.danger .timeline-icon {
+            background: #fd5d93 !important;
+        }
+        .author {
+            font-family: inherit;
+            padding: 3em;
+            text-align: center;
+            width: 100%;
+            color: white;
+        }
+        .author a:link,
+        .author a:visited {
+            color: white;
+        }
+        .author a:link:hover,
+        .author a:visited:hover {
+            text-decoration: none;
+        }
+        .author .btn:link,
+        .author .btn:visited {
+            margin-top: 1em;
+            text-decoration: none;
+            display: inline-block;
+            font-family: inherit;
+            font-weight: 100;
+            color: white;
+            text-align: center;
+            vertical-align: middle;
+            user-select: none;
+            background-color: black;
+            padding: 1.5em 2rem;
+            border-radius: 1em;
+            transition: 0.5s all;
+        }
+        .author .btn:link:hover,
+        .author .btn:visited:hover,
+        .author .btn:link:focus,
+        .author .btn:visited:focus,
+        .author .btn:link:active,
+        .author .btn:visited:active {
+            background-color: #1a1a1a;
+        }
+    </style>
+
+    <title>Vertical Dark Timeline</title>
+</head>
+
+<body>
+    <!-- Further code here -->
+    <div class="container">
+    <div class="timeline">
+        <div class="timeline-container primary">
+            <div class="timeline-icon">
+                <i class="far fa-grin-wink"></i>
+            </div>
+            <div class="timeline-body">
+                <h4 class="timeline-title"><span class="badge">1820s - The Steam Locomotive Revolution</span></h4>
+                <p>The dawn of the 19th century marked the onset of a technological revolution with the advent of steam locomotives. George Stephenson, an English engineer, built the first public inter-city railway line in the world to use steam locomotives in the 1820s. This unprecedented invention allowed goods and passengers to travel faster than ever before, marking the beginning of a new era in transportation.</p>
+                <p class="timeline-subtitle">1 Hours Ago</p>
+            </div>
+        </div>
+        <div class="timeline-container danger">
+            <div class="timeline-icon">
+                <i class="far fa-grin-hearts"></i>
+            </div>
+            <div class="timeline-body">
+                <h4 class="timeline-title"><span class="badge">1903 - The Wright Brothers Take Flight</span></h4>
+                <p>Following the same spirit of exploration and innovation, the Wright Brothers achieved the impossible at the start of the 20th century. In 1903, Orville and Wilbur Wright made the first controlled, sustained flight of a powered, heavier-than-air aircraft. This breakthrough laid the foundation for the modern aviation industry, revolutionizing the way we travel.</p>
+                <p class="timeline-subtitle">2 Hours Ago</p>
+            </div>
+        </div>
+        <div class="timeline-container success">
+            <div class="timeline-icon">
+                <i class="far fa-grin-tears"></i>
+            </div>
+            <div class="timeline-body">
+                <h4 class="timeline-title"><span class="badge">1957 - The Space Age Commences</span></h4>
+                <p>The mid-20th century saw humanity reaching beyond the confines of Earth. The Soviet Union launched Sputnik 1, the first artificial satellite, into space in 1957. This historic event opened the gates to space exploration, making the idea of traveling beyond Earth a reality. It further paved the way for humankind's continuous quest to understand the cosmos.</p>
+                <p class="timeline-subtitle">6 Hours Ago</p>
+            </div>
+        </div>
+        <div class="timeline-container warning">
+            <div class="timeline-icon">
+                <i class="far fa-grimace"></i>
+            </div>
+            <div class="timeline-body">
+                <h4 class="timeline-title"><span class="badge">1970 - The Jet Age Peaks</span></h4>
+                <p>The Concorde, a British-French turbojet-powered supersonic passenger airliner, was introduced in 1970. Capable of speeds over twice the speed of sound, this feat of engineering drastically reduced transatlantic flight times and represented the pinnacle of jet-powered passenger travel.</p>
+                <p class="timeline-subtitle">1 Day Ago</p>
+            </div>
+        </div>
+        <div class="timeline-container">
+            <div class="timeline-icon">
+                <i class="far fa-grin-beam-sweat"></i>
+            </div>
+            <div class="timeline-body">
+                <h4 class="timeline-title"><span class="badge">2001 - Digital Revolution in Travel</span></h4>
+                <p>The start of the 21st century saw a shift in the way we plan and manage travel. With the launch of Expedia, the digital revolution swept over the travel industry. Now, instead of physically visiting travel agencies or directly contacting airlines, the internet offered a platform for comparing prices, scheduling trips, and buying tickets from the comfort of one's home.</p>
+                <p class="timeline-subtitle">3 Days Ago</p>
+            </div>
+        </div>
+        <div class="timeline-container info">
+            <div class="timeline-icon">
+                <i class="far fa-grin"></i>
+            </div>
+            <div class="timeline-body">
+                <h4 class="timeline-title"><span class="badge">2023 - Autonomous Vehicles</span></h4>
+                <p>As the current era unfolds, the focus of transportation innovation has turned towards self-driving cars. In 2023, companies like Waymo have already begun offering fully autonomous ride-hailing services in select cities. This transition towards intelligent, self-driving vehicles promises to transform the landscape of terrestrial transportation in ways similar to how steam locomotives, airplanes, and rockets changed the way we traveled in their respective eras.</p>
+                <p class="timeline-subtitle">4 Days Ago</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

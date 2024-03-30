@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" ng-app ng-controller="appCtrl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bookmark App</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        ul.bookmarks {
+            list-style: none;
+        }
+
+        ul.bookmarks li {
+            margin-bottom: 5px;
+            border-bottom: 1px solid #ddd;
+            padding: 5px;
+        }
+
+        ul.bookmarks a {
+            margin-right: 10px;
+        }
+
+        .likes {
+            width: 30px;
+            margin-right: 3px;
+        }
+
+        header h3 {
+            line-height: 3em;
+        }
+
+        .icon-thumbs-up {
+            color: #999;
+            cursor: pointer;
+        }
+
+        .bookmarks em {
+            color: #666;
+            font-size: 11px;
+        }
+
+        .icon-trash {
+            color: #c6c6c6;
+            cursor: pointer;
+        }
+
+        .icon-trash:hover {
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header class="row mb-4">
+            <div class="col-12">
+                <h3>Bookmarks</h3>
+            </div>
+        </header>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <input type="text" class="form-control" placeholder="Search Bookmarks" ng-model="search" />
+                </div>
+                <ul class="bookmarks">
+                    <li ng-repeat="site in bookmarks | filter: search">
+                        <a href="{{ site.url }}">{{ site.title }}</a>
+                        <span class="badge bg-secondary"> {{site.category}}</span>
+                        <i class="float-end icon-trash" ng-click="deleteBookmark($index)"></i>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <h4>Add Bookmark</h4>
+                    <input type="text" class="form-control mb-2" placeholder="Site Name" ng-model="site_name" />
+                    <input type="text" class="form-control mb-2" placeholder="URL" ng-model="site_url" />
+                    <input type="text" class="form-control mb-2" placeholder="Category" ng-model="site_category" />
+                    <button class="btn btn-primary" ng-click="addBookmark()">Add Bookmark</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+    <script>
+        function appCtrl($scope) {
+            $scope.bookmarks = [
+                { title: 'Reddit', url: 'http://reddit.com', category: 'Community', likes: 1 },
+                { title: 'CNN', url: 'http://cnn.com', category: 'News', likes: 10 },
+                { title: 'A List Apart', url: 'http://alistapart.com', category: 'Web Design', likes: 15 },
+                { title: 'CodePen', url: 'https://codepen.io', category: 'Web Design', likes: 3 }
+            ];
+
+            $scope.increment = function ($index) {
+                $scope.likes++;
+            };
+
+            $scope.addBookmark = function () {
+                $scope.bookmarks.push({
+                    title: $scope.site_name,
+                    url: $scope.site_url,
+                    category: $scope.site_category,
+                    likes: 0
+                });
+                $scope.site_name = '';
+                $scope.site_url = '';
+                $scope.site_category = '';
+            },
+
+            $scope.deleteBookmark = function (id) {
+                var bookmark = $scope.bookmarks[id];
+                $scope.bookmarks.splice(id, 1);
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data roles and data skills</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f6f6f6;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            margin: 0;
+        }
+
+        select {
+            padding: 10px 15px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            outline: none;
+            width: 250px;
+            background-color: #fff;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .venn-container {
+            display: flex;
+            justify-content: space-between;
+            width: 650px;
+            height: 300px;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .circle {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #aaa;
+            color: white;
+        }
+
+        .circle.one {
+            background-color: #2164f3;
+        }
+
+        .circle.two {
+            background-color: #ff6600;
+        }
+
+        .common-skills {
+            text-align: center;
+            width: 650px;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+    </style>
+
+</head>
+<body>
+
+
+<h1>Data roles and data skills</h1>
+    <div class="container">
+        <div>
+            <label for="circle1">First Job:</label>
+            <select id="circle1">
+                <option value="" disabled selected>Select a Job</option>
+                <option value="Data Scientist">Data Scientist</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Data Engineer">Data Engineer</option>
+                <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
+            </select>
+            <label for="circle2">Second Job:</label>
+            <select id="circle2">
+                <option value="" disabled selected>Select a Job</option>
+                <option value="Machine Learning Engineer">Machine Learning Engineer</option>
+                <option value="Data Scientist">Data Scientist</option>    
+                <option value="Software Engineer">Software Engineer</option>
+                <option value="Data Analyst">Data Analyst</option>
+                <option value="Data Engineer">Data Engineer</option>
+                <option value="Business Intelligence Analyst">Business Intelligence Analyst</option>
+            </select>
+        </div>
+        <div class='venn-container'>
+        <div class='circle one'>
+            <h4 id="selected1_out"></h4>
+            <ul id="circle_1_text_out"></ul>
+        </div>
+        <div class='circle two'>
+            <h4 id="selected2_out"></h4>
+            <ul id="circle_2_text_out"></ul>
+        </div>
+    </div>
+    <div class="common-skills">
+        <h4>Common Skills:</h4>
+        <ul id="circle_12_text_out"></ul>
+    </div>
+    </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
+    <script>
+    
+        var df = [{"job_title":"Data Scientist","skill":"Python"},{"job_title":"Data Scientist","skill":"Machine Learning"},{"job_title":"Data Scientist","skill":"R"},{"job_title":"Data Scientist","skill":"Data Science"},{"job_title":"Data Scientist","skill":"Data Mining"},{"job_title":"Data Scientist","skill":"Hadoop"},{"job_title":"Data Scientist","skill":"Big Data"},{"job_title":"Data Scientist","skill":"Spark"},{"job_title":"Data Scientist","skill":"SAS"},{"job_title":"Data Scientist","skill":"Java"},{"job_title":"Machine Learning Engineer","skill":"Machine Learning"},{"job_title":"Machine Learning Engineer","skill":"Python"},{"job_title":"Machine Learning Engineer","skill":"C, C++"},{"job_title":"Machine Learning Engineer","skill":"Java"},{"job_title":"Machine Learning Engineer","skill":"Artificial Intelligence"},{"job_title":"Machine Learning Engineer","skill":"NLP"},{"job_title":"Machine Learning Engineer","skill":"Spark"},{"job_title":"Machine Learning Engineer","skill":"TensorFlow"},{"job_title":"Machine Learning Engineer","skill":"R"},{"job_title":"Machine Learning Engineer","skill":"Hadoop"},{"job_title":"Software Engineer","skill":"Java"},{"job_title":"Software Engineer","skill":"Python"},{"job_title":"Software Engineer","skill":"C, C++"},{"job_title":"Software Engineer","skill":"Javascript"},{"job_title":"Software Engineer","skill":"Agile"},{"job_title":"Software Engineer","skill":".net"},{"job_title":"Software Engineer","skill":"HTML"},{"job_title":"Software Engineer","skill":"AWS"},{"job_title":"Software Engineer","skill":"Git"},{"job_title":"Software Engineer","skill":"Machine Learning"},{"job_title":"Data Analyst","skill":"Python"},{"job_title":"Data Analyst","skill":"Data Warehouse"},{"job_title":"Data Analyst","skill":"Tableau"},{"job_title":"Data Analyst","skill":"R"},{"job_title":"Data Analyst","skill":"SQL"},{"job_title":"Data Analyst","skill":"Business Intelligence"},{"job_title":"Data Analyst","skill":"SAS"},{"job_title":"Data Analyst","skill":"Data Mining"},{"job_title":"Data Analyst","skill":"Big Data"},{"job_title":"Data Analyst","skill":"Machine Learning"},{"job_title":"Data Engineer","skill":"Python"},{"job_title":"Data Engineer","skill":"Data Warehouse"},{"job_title":"Data Engineer","skill":"Hadoop"},{"job_title":"Data Engineer","skill":"Big Data"},{"job_title":"Data Engineer","skill":"Java"},{"job_title":"Data Engineer","skill":"Spark"},{"job_title":"Data Engineer","skill":"AWS"},{"job_title":"Data Engineer","skill":"Machine Learning"},{"job_title":"Data Engineer","skill":"Scala"},{"job_title":"Data Engineer","skill":"Agile"},{"job_title":"Business Intelligence Analyst","skill":"Business Intelligence"},{"job_title":"Business Intelligence Analyst","skill":"Tableau"},{"job_title":"Business Intelligence Analyst","skill":"Data Warehouse"},{"job_title":"Business Intelligence Analyst","skill":"SQL"},{"job_title":"Business Intelligence Analyst","skill":"Python"},{"job_title":"Business Intelligence Analyst","skill":"R"},{"job_title":"Business Intelligence Analyst","skill":"SAS"},{"job_title":"Business Intelligence Analyst","skill":"Oracle"},{"job_title":"Business Intelligence Analyst","skill":"Data Mining"},{"job_title":"Business Intelligence Analyst","skill":"Project Management"}]
+
+        function isInArray(value, array) {
+          return array.indexOf(value) > -1;
+        }
+
+        function checkUniqueInObject(propertyName, inputArray1, inputArray2) {
+          var arr1 = []
+          var arr2 = []
+          var arr = []
+          inputArray1.map(function(item) {
+            var item1PropName = item[propertyName]
+              arr1.push(item1PropName);
+            })
+          inputArray2.map(function(item) {
+            var item2PropName = item[propertyName]
+              arr2.push(item2PropName);
+            })
+          inputArray1.map(function(item) {
+            var itemPropertyName = item[propertyName];    
+            if (!isInArray(itemPropertyName, arr2)) {
+              arr.push(itemPropertyName);
+            }
+            else {
+              delete item.duplicate;
+            }
+          });
+
+          return arr;
+        }
+
+        function checkDuplicateInObject(propertyName, inputArray) {
+          var seenDuplicate = false,
+              testObject = {}; //checked
+          var arr = []
+
+          inputArray.map(function(item) {
+            var itemPropertyName = item[propertyName];    
+            if (itemPropertyName in testObject) {
+              testObject[itemPropertyName].duplicate = true;
+              arr.push(itemPropertyName);
+            }
+            else {
+              testObject[itemPropertyName] = item;
+              delete item.duplicate;
+            }
+          });
+
+          return arr;
+        }
+        function removeDuplicates(json_all) {
+            var arr = [],
+                collection = [];
+
+            $.each(json_all, function (index, value) {
+                if ($.inArray(value.id, arr) == -1) {
+                    arr.push(value.id);
+                    collection.push(value);
+                }
+            });
+            return collection;
+        }
+
+        function makeUL(array) {
+            // Create the list element:
+            var list = document.createElement('ul');
+
+            for(var i = 0; i < array.length; i++) {
+                // Create the list item:
+                var item = document.createElement('li');
+
+                // Set its contents:
+                item.appendChild(document.createTextNode(array[i]));
+
+                // Add it to the list:
+                list.appendChild(item);
+            }
+
+            // Finally, return the constructed list:
+            return list;
+        }
+
+        function check_circles(){
+          $('#circle_1_text_out').empty();
+          $('#circle_2_text_out').empty();
+          $('#circle_12_text_out').empty();
+          var select1 = document.getElementById("circle1");
+
+          document.getElementById("selected1_out").innerHTML = select1.value
+
+          var circle1Text = select1.options[select1.selectedIndex].text;
+          var circle1Skills = $.grep(df, function( n, i ) {
+            return n.job_title===circle1Text;
+          });
+          var select2 = document.getElementById("circle2");
+        document.getElementById("selected2_out").innerHTML = select2.value
+          var circle2Text = select2.options[select2.selectedIndex].text;
+          var circle2Skills = $.grep(df, function( n, i ) {
+            return n.job_title===circle2Text;
+          });
+
+          var cleaned1 = checkUniqueInObject('skill',circle1Skills, circle2Skills);
+
+          document.getElementById('circle_1_text_out').appendChild(makeUL(cleaned1));
+
+          var cleaned2 = checkUniqueInObject('skill',circle2Skills, circle1Skills);
+
+        document.getElementById('circle_2_text_out').appendChild(makeUL(cleaned2));
+
+          var circle12Skills = $.grep(df, function( n, i ) {
+            return n.job_title===circle1Text || n.job_title===circle2Text;
+          });
+
+          var cleaned = checkDuplicateInObject('skill',circle12Skills);
+        document.getElementById('circle_12_text_out').appendChild(makeUL(cleaned));
+        }
+
+        check_circles()
+
+        $(document).ready(function(){
+          $("#circle1").on("change", function() {
+            check_circles()
+          });
+        });
+
+        $(document).ready(function(){
+          $("#circle2").on("change", function() {
+            check_circles()
+          });
+        });
+    </script>
+
+</body>
+</html>

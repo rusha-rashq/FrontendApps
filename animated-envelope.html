@@ -1,0 +1,208 @@
+<!DOCTYPE html> <!-- Declaration for HTML5, ensuring proper rendering -->
+<html lang="en"> <!-- Sets the language of the document to English -->
+<head>
+    <meta charset="UTF-8"> <!-- Specifies the character encoding for the document -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ensures proper scaling on various devices -->
+    <title>Envelope Animation</title> <!-- Title of the document shown in browser tab -->
+
+<style>
+    /* Set the background color for the entire webpage */
+    body {
+        background: #323641;
+    }
+    /* Style the main envelope container */
+    .letter-image {
+        position: absolute;
+        top: 60%; /* Position from the top of the page */
+        left: 52%; /* Position from the left of the page */
+        width: 350px; /* Width of the envelope */
+        height: 350px; /* Height of the envelope */
+        -webkit-transform: translate(-50%, -50%); /* Centering for webkit browsers */
+        -moz-transform: translate(-50%, -50%); /* Centering for Mozilla browsers */
+        transform: translate(-50%, -50%); /* Generic centering */
+        cursor: pointer; /* Changes cursor to a pointer on hover */
+    }
+    /* Style the animated part of the mail */
+    .animated-mail {
+        position: absolute;
+        height: 230px; /* Height of the animated mail */
+        width: 400px; /* Width of the animated mail */
+        -webkit-transition: .4s; /* Transition effect for webkit browsers */
+        -moz-transition: .4s; /* Transition effect for Mozilla browsers */
+        transition: .4s; /* Generic transition effect */
+        /* Style for the bottom part of the envelope */
+        .body {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 180px 280px;
+            border-color: transparent transparent #e95f55 transparent;
+            z-index: 2;
+        }
+        /* Style for the top folding part of the envelope */
+        .top-fold {
+            position: absolute;
+            top: 50px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 90px 140px 0 140px;
+            -webkit-transform-origin: 50% 0%;
+            -moz-transform-origin: 50% 0%;
+            transform-origin: 50% 0%;
+            transition: transform .4s .4s, z-index .2s .4s;
+            border-color: #cf4a43 transparent transparent transparent;
+            z-index: 2;
+        }
+        /* Style for the back fold of the envelope */
+        .back-fold {
+            position: absolute;
+            bottom: 0;
+            width: 280px;
+            height: 180px;
+            background: #cf4a43;
+            z-index: 0;
+        }
+        /* Style for the left fold of the envelope */
+        .left-fold {
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 90px 0 90px 140px;
+            border-color: transparent transparent transparent #e15349;
+            z-index: 2;
+        }
+        /* Style the letter inside the envelope */
+        .letter {
+            left: 15px;
+            bottom: 0px;
+            position: absolute;
+            width: 250px; /* Width of the letter */
+            height: 160px; /* Height of the letter */
+            background: white;
+            z-index: 1;
+            overflow: hidden;
+            -webkit-transition: .4s .2s;
+            -moz-transition: .4s .2s;
+            transition: .4s .2s;
+            /* Style the decorative border at the top of the letter */
+            .letter-border {
+                height: 10px;
+                width: 100%;
+                background: repeating-linear-gradient(
+                    -45deg,
+                    #cb5a5e,
+                    #cb5a5e 8px,
+                    transparent 8px,
+                    transparent 18px
+                );
+            }
+            /* Style the title area of the letter */
+            .letter-title {
+                margin-top: 20px;
+                margin-left: 15px;
+                height: 10px;
+                width: 40%;
+                background: #cb5a5e;
+            }
+            /* Style the context/body area of the letter */
+            .letter-context {
+                margin-top: 20px;
+                margin-left: 15px;
+                height: 50px;
+                width: 50%;
+                background: #cb5a5e;
+            }
+            /* Style the stamp on the letter */
+            .letter-stamp {
+                margin-top: 2px;
+                margin-left: 170px;
+                border-radius: 100%;
+                height: 80px;
+                width: 80px;
+                background: #cb5a5e;
+                opacity: 0.3;
+            }
+        }
+    }
+    /* Style the shadow effect of the envelope */
+    .shadow {
+        position: absolute;
+        top: 260px;
+        left: 40%;
+        width: 500px; /* Width of the shadow */
+        height: 30px; /* Height of the shadow */
+        transition: .4s;
+        transform: translateX(-50%);
+        -webkit-transition: .4s;
+        -webkit-transform: translateX(-50%);
+        -moz-transition: .4s;
+        -moz-transform: translateX(-50%);
+        border-radius: 100%;
+        background: radial-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.0), rgba(0,0,0,0.0));
+    }
+    /* Hover effect for the envelope */
+    .letter-image:hover {
+        .animated-mail {
+            transform: translateY(240px);
+            -webkit-transform: translateY(25px);
+            -moz-transform: translateY(25px);
+        }
+        /* Style changes for the top fold when hovering */
+        .animated-mail .top-fold {
+            transition: transform .4s, z-index .2s;
+            transform: rotateX(180deg);
+            -webkit-transition: transform .4s, z-index .2s;
+            -webkit-transform: rotateX(180deg);
+            -moz-transition: transform .4s, z-index .2s;
+            -moz-transform: rotateX(180deg);
+            z-index: 0;
+        }
+        /* Adjusting the height of the letter when hovering */
+        .animated-mail .letter {
+            height: 260px;
+        }
+        /* Adjusting the width of the shadow when hovering */
+        .shadow {
+            width: 250px;
+        }
+    }
+</style>
+</head>
+<body>
+    <!-- Main container for the envelope image -->
+    <div class="letter-image">
+        <!-- Container for all animated parts of the mail envelope -->
+        <div class="animated-mail">
+            <!-- Back fold of the envelope -->
+            <div class="back-fold"></div>
+            <!-- Container representing the letter inside the envelope -->
+            <div class="letter">
+                <!-- Top border of the letter -->
+                <div class="letter-border"></div>
+                <!-- Title area of the letter -->
+                <div class="letter-title"></div>
+                <!-- Main context/body area of the letter -->
+                <div class="letter-context"></div>
+                <!-- Stamp on the letter -->
+                <div class="letter-stamp">
+                    <!-- Inner part of the stamp -->
+                    <div class="letter-stamp-inner"></div>
+                </div>
+            </div>
+            <!-- Top fold of the envelope -->
+            <div class="top-fold"></div>
+            <!-- Body of the envelope -->
+            <div class="body"></div>
+            <!-- Left fold of the envelope -->
+            <div class="left-fold"></div>
+        </div>
+        <!-- Shadow effect for the envelope -->
+        <div class="shadow"></div>
+    </div>
+</body>
+</html>

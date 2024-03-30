@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Twin Prime Detector</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            background-color: #afd5ed;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .main-container {
+            display: flex;
+            height: 100vh;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification {
+            display: none;
+            margin-top: 15px;
+        }
+
+        button {
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        #results {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main-container">
+        <div class="card">
+            <div class="card-content">
+                <h1 class="title has-text-centered">Twin Prime Detector</h1>
+                <div class="field">
+                    <label class="label">Limit</label>
+                    <div class="control">
+                        <input class="input" id="limit" type="number" placeholder="Enter limit">
+                    </div>
+                </div>
+                <div class="field">
+                    <button class="button is-primary is-fullwidth" onclick="findTwinPrimes()">Find Twin Primes</button>
+                </div>
+                <div class="notification is-warning" id="warning-message">Please enter a valid limit.</div>
+                <div class="notification is-info" id="processing-message">Processing...</div>
+                <div id="results"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function isPrime(num) {
+            if (num < 2) return false;
+            for (let i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i === 0) return false;
+            }
+            return true;
+        }
+
+        function findTwinPrimes() {
+            const limitInput = document.getElementById("limit");
+            const limit = parseInt(limitInput.value);
+            const warningDiv = document.getElementById("warning-message");
+            const processingDiv = document.getElementById("processing-message");
+            const resultsDiv = document.getElementById("results");
+            resultsDiv.innerHTML = '';
+
+            if (isNaN(limit) || limit <= 0) {
+                warningDiv.style.display = "block";
+                processingDiv.style.display = "none";
+                return;
+            }
+
+            warningDiv.style.display = "none";
+            processingDiv.style.display = "block";
+
+            setTimeout(() => {
+                let resultsHtml = '<h2 class="subtitle">Twin Primes:</h2><ul>';
+                let lastPrime = 2;
+
+                for (let i = 3; i <= limit; i += 2) {
+                    if (isPrime(i)) {
+                        if (i - lastPrime === 2) {
+                            resultsHtml += `<li>(${lastPrime}, ${i})</li>`;
+                        }
+                        lastPrime = i;
+                    }
+                }
+
+                resultsHtml += '</ul>';
+                resultsDiv.innerHTML = resultsHtml;
+                processingDiv.style.display = "none";
+            }, 200);
+        }
+    </script>
+</body>
+
+</html>

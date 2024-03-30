@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Toeplitz Matrix Checker</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1 class="title">Toeplitz Matrix Checker</h1>
+        <div class="field">
+            <label class="label">Number of Rows and Columns (Square Matrix)</label>
+            <input class="input" type="number" id="sizeInput" placeholder="Enter size for N x N matrix">
+        </div>
+        <button class="button is-info" onclick="generateMatrixInputs()">Generate Matrix Inputs</button>
+
+        <div id="matrixInputArea" class="mt-4"></div>
+
+        <button class="button is-primary mt-4" onclick="checkToeplitz()">Check Toeplitz</button>
+        <p class="mt-4" id="result"></p>
+    </div>
+
+    <script>
+        function generateMatrixInputs() {
+            const size = document.getElementById('sizeInput').value;
+            const matrixInputArea = document.getElementById('matrixInputArea');
+            matrixInputArea.innerHTML = '';
+
+            for (let i = 0; i < size; i++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'columns';
+
+                for (let j = 0; j < size; j++) {
+                    const columnDiv = document.createElement('div');
+                    columnDiv.className = 'column';
+
+                    const inputElement = document.createElement('input');
+                    inputElement.className = 'input';
+                    inputElement.id = `cell-${i}-${j}`;
+                    inputElement.type = 'number';
+
+                    columnDiv.appendChild(inputElement);
+                    rowDiv.appendChild(columnDiv);
+                }
+
+                matrixInputArea.appendChild(rowDiv);
+            }
+        }
+
+        function checkToeplitz() {
+          const size = parseInt(document.getElementById('sizeInput').value);
+          let matrix = Array.from({ length: size }, () => Array(size).fill(0));
+
+          for (let i = 0; i < size; i++) {
+              for (let j = 0; j < size; j++) {
+                  matrix[i][j] = parseInt(document.getElementById(`cell-${i}-${j}`).value);
+              }
+          }
+
+          for (let i = 0; i < size - 1; i++) {
+              for (let j = 0; j < size - 1; j++) {
+                  if (matrix[i][j] !== matrix[i + 1][j + 1]) {
+                      document.getElementById('result').innerText = 'Matrix is not a Toeplitz';
+                      return;
+                  }
+              }
+          }
+
+          document.getElementById('result').innerText = 'Matrix is a Toeplitz';
+      }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Policy Timeline</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+    	.timeline {
+            list-style: none;
+            padding: 20px 0;
+            position: relative;
+        }
+
+        .timeline::before {
+            top: 0;
+            bottom: 0;
+            position: absolute;
+            content: '';
+            margin-left: 30px;
+            width: 2px;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item::before {
+            content: '';
+            background: lightgray;
+            display: inline-block;
+            position: absolute;
+            border-radius: 50%;
+            border: 3px solid darkgray;
+            width: 20px;
+            height: 20px;
+            left: 20px;
+            top: 5px;
+            transition: background 0.2s ease-in-out;
+        }
+
+        .timeline-item h4 {
+            color: darkgray;
+            margin-bottom: 10px;
+            border-bottom: 1px solid darkgray;
+        }
+
+        .timeline-panel {
+            background: white;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 2px;
+            padding: 20px;
+            position: relative;
+            width: 90%;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .timeline-body {
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center">Policy Timeline</h1>
+        <ul id="timeline" class="timeline"></ul>
+    </div>
+    <script>
+    	let timelineData = [
+              { date: '1933-03-09', event: 'Emergency Banking Act', policy: 'The United States Congress passed the Emergency Banking Act that granted President Franklin D. Roosevelt powers to oversee banking transactions and reopen solvent banks in response to the Great Depression.' },
+              { date: '1964-07-02', event: 'Civil Rights Act of 1964', policy: 'President Lyndon B. Johnson signed into law the Civil Rights Act of 1964, outlawing discrimination based on race, color, religion, sex, or national origin.' },
+              { date: '1970-04-22', event: 'First Earth Day & Creation of the EPA', policy: 'The first Earth Day is celebrated in the United States, leading to the creation of the U.S. Environmental Protection Agency, signaling a growing public demand for cleaner natural environments.' },
+              { date: '1997-12-11', event: 'Kyoto Protocol Adoption', policy: 'The Kyoto Protocol was adopted, mandating country-by-country reductions in greenhouse-gas emissions. It was one of the first major international treaties aimed at combating climate change.' },
+              { date: '2010-03-23', event: 'Patient Protection and Affordable Care Act (Obamacare)', policy: 'President Barack Obama signed the Patient Protection and Affordable Care Act into law, the most significant regulatory overhaul of the U.S. healthcare system since the passage of Medicare and Medicaid in 1965.' }
+          ];
+
+          let timelineElement = document.getElementById('timeline');
+
+          timelineData.forEach(function(item) {
+              let itemElement = document.createElement('li');
+              itemElement.classList.add('timeline-item');
+
+              itemElement.innerHTML = `
+                  <div class="timeline-panel">
+                      <div class="timeline-heading">
+                          <h4 class="timeline-title">${item.event}</h4>
+                          <p><small class="text-muted"><i class="glyphicon glyphicon-time"></i>${item.date}</small></p>
+                      </div>
+                      <div class="timeline-body">
+                          <p>${item.policy}</p>
+                      </div>
+                  </div>
+              `;
+
+              timelineElement.appendChild(itemElement);
+          });
+    </script>
+</body>
+</html>

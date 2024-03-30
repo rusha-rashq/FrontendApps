@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Rainbow Text</title>
+<style>
+		@import url("https://fonts.googleapis.com/css2?family=Karla:wght@800&display=swap");
+
+      .rainbow-text {
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: rainbow-slide 8s linear infinite;
+        background-size: 300% 100%;
+        background-image: linear-gradient(
+          90deg,
+          #e5600b 0,
+          #bfaf00 14%,
+          #37bb00 28%,
+          #25b5f5 43%,
+          #ca57fa 68%,
+          #fa3f2b 83%,
+          #e5600b
+        );
+        font-family: "Karla", sans-serif;
+        font-size: 1.875rem;
+        line-height: 2.25rem;
+        font-weight: 800;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+      }
+
+      @keyframes rainbow-slide {
+        0% {
+          background-position: 0 50%;
+        }
+
+        50% {
+          background-position: 100% 50%;
+        }
+
+        to {
+          background-position: 0 50%;
+        }
+      }
+
+      html,
+      body {
+        height: 100%;
+        background-color: black;
+      }
+</style>
+
+</head>
+<body>
+
+<div class="rainbow-text">
+	Artificial General Intelligence
+</div>
+</body>
+</html>

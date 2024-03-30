@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tridiagonal Matrix Checker</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+
+<body class="bg-gradient-to-r from-blue-500 to-green-500 h-screen flex justify-center items-center">
+
+<div class="bg-red p-8 rounded-xl shadow-md w-full max-w-2xl">
+    <h1 class="text-2xl mb-4 text-center">Tridiagonal Matrix Checker</h1>
+    <div class="mb-4">
+        <label for="matrixSize" class="block text-sm font-medium text-gray-700 mb-2">Enter the size of the matrix (rows x columns):</label>
+        <div class="flex">
+            <input type="number" id="numRows" placeholder="Rows" class="flex-1 mr-2 p-2 border rounded shadow-md">
+            <input type="number" id="numCols" placeholder="Columns" class="flex-1 ml-2 p-2 border rounded shadow-md">
+            <button id="generateButton" class="ml-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600">
+                Generate
+            </button>
+        </div>
+    </div>
+    <div id="matrixInputArea" class="mb-4"></div>
+    <button id="checkButton" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 w-full">
+        Check Tridiagonality
+    </button>
+    <p id="result" class="mt-4 text-center text-lg"></p>
+</div>
+
+<script>
+    const matrixInputArea = document.getElementById('matrixInputArea');
+    const checkButton = document.getElementById('checkButton');
+    const result = document.getElementById('result');
+    const numRows = document.getElementById('numRows');
+    const numCols = document.getElementById('numCols');
+    const generateButton = document.getElementById('generateButton');
+
+    generateButton.addEventListener('click', () => {
+        matrixInputArea.innerHTML = ''; // Clear existing matrix
+
+        const rows = numRows.value;
+        const cols = numCols.value;
+
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                const input = document.createElement('input');
+                input.setAttribute('type', 'number');
+                input.setAttribute('data-row', i);
+                input.setAttribute('data-col', j);
+                input.classList.add('m-1', 'w-12', 'p-1', 'border', 'rounded', 'shadow-md');
+                matrixInputArea.appendChild(input);
+            }
+            matrixInputArea.appendChild(document.createElement('br'));
+        }
+    });
+
+    checkButton.addEventListener('click', () => {
+        const rows = numRows.value;
+        const cols = numCols.value;
+
+        let isTridiagonal = true;
+        for (let i = 0; i < rows; i++) {
+            for (let j = 0; j < cols; j++) {
+                const input = document.querySelector(`[data-row="${i}"][data-col="${j}"]`);
+                const value = Number(input.value);
+                if (Math.abs(i - j) > 1 && value !== 0) {
+                    isTridiagonal = false;
+                }
+            }
+        }
+
+        result.textContent = isTridiagonal ? "The matrix is tridiagonal." : "The matrix is NOT tridiagonal.";
+    });
+</script>
+
+</body>
+
+</html>

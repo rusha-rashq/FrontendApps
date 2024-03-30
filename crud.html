@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD App</title>
+    <link href="https://fonts.googleapis.com/css?family=Exo" rel="stylesheet">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        .myTable, .table th {
+            text-align: center;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Exo, sans-serif;
+        }
+        .myTable {
+            margin-top: 50px;
+        }
+        .myAlert {
+            margin: 50px 0 0;
+        }
+        .alert h4 {
+            margin: 0;
+        }
+        span {
+            color: red;
+        }
+        .footer {
+            padding-top: 235px;
+        }
+    </style>
+</head>
+<body ng-controller="myController">
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <hr>
+            <h3 class="text-center">CRUD App</h3>
+            <hr>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <button class="btn btn-info float-end" data-toggle="modal" data-target="#addModal">Add New</button>
+            <div class="alert alert-warning fade in myAlert" ng-if="alertMassege">
+                <a href="#" class="close" data-dismiss="alert" ng-click="clickedAlert()">×</a>
+                <h4>{{alertMassege}}</h4>
+            </div>
+            <table class="table table-bordered myTable">
+                <thead>
+                    <tr class="text-center">
+                        <th>Index</th>
+                        <th>Team Name</th>
+                        <th>Full Name</th>
+                        <th>Email</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="user in users">
+                        <td>{{$index+1}}</td>
+                        <td>{{user.name}}</td>
+                        <td>{{user.fullname}}</td>
+                        <td>{{user.email}}</td>
+                        <td><button class="btn btn-warning" data-toggle="modal" data-target="#editModal" ng-click="selectUser(user)">Edit</button></td>
+                        <td><button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" ng-click="selectUser(user)">Delete</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<!-- Add Modal -->
+<div id="addModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">Add New</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="Name">Team Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="Enter Team Name" ng-model="newUser.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="full name">Full Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" placeholder="Enter Full Name" ng-model="newUser.fullname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="email">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" placeholder="Enter Email" ng-model="newUser.email">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" ng-click="saveUser()" data-dismiss="modal">Save</button>
+                <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div id="editModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"></button>
+                <h4 class="modal-title">Edit</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="Name">Team Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="clickedUser.name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="full name">Full Name</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" ng-model="clickedUser.fullname">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-3" for="email">Email</label>
+                            <div class="col-sm-8">
+                                <input type="email" class="form-control" ng-model="clickedUser.email">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success" type="button" ng-click="updateUser()" data-dismiss="modal">Save</button>
+                <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">×</button>
+                <h4 class="modal-title">Delete</h4>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete {{clickedUser.name}}?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-danger" type="button" ng-click="deleteUser()" data-dismiss="modal">Delete</button>
+                <button class="btn btn-default" type="button" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add the AngularJS library -->
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js"></script>
+<script>
+    var myApp = angular.module('myApp', []);
+
+    myApp.controller("myController", function ($scope) {
+        $scope.newUser = {};
+        $scope.clickedUser = {};
+        $scope.alertMassege = "";
+
+        $scope.users = [
+            {name: "SpartaX", fullname: "Neil Sharma", email: "neil@mail.com"},
+            {name: "Newton", fullname: "Yash Gupta", email: "yash@mail.com"},
+            {name: "Chemis", fullname: "Priyanka Dua", email: "priyanka@mail.com"},
+        ];
+
+        $scope.saveUser = function () {
+            $scope.users.push($scope.newUser);
+            $scope.newUser = {};
+            $scope.alertMassege = "New item add on list successfully!!";
+        };
+
+        $scope.selectUser = function (user) {
+            $scope.clickedUser = user;
+        };
+
+        $scope.updateUser = function () {
+            $scope.alertMassege = "Update Successfully!!";
+        };
+
+        $scope.deleteUser = function () {
+            $scope.users.splice($scope.users.indexOf($scope.clickedUser), 1);
+            $scope.alertMassege = "Deleted successfully!!";
+        };
+
+        $scope.clickedAlert = function () {
+            $scope.alertMassege = "";
+        };
+    });
+</script>
+</body>
+</html>

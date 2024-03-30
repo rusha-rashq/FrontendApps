@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS -->
+    <style>
+        @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500&display=swap");
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            display: flex;
+            align-items: start;
+            justify-content: center;
+            background: #8e2de2;
+        }
+
+        .container {
+            background: white;
+            color: black;
+            font-size: 26px;
+            margin-top: 15rem;
+            border-radius: 10px;
+            padding: 30px 30px;
+        }
+    </style>
+
+    <title>Check internet speed</title>
+</head>
+
+<body>
+    <div class="container">
+        <p style="font-weight: bold;">Your Internet Speed:-</p>
+        <p id="kbs">calculating...</p>
+        <p id="mbs"></p>
+    </div>
+    <script>
+        let startTime, endTime;
+        let imageSize = "";
+        let image = new Image();
+
+        let kboutput = document.getElementById("kbs");
+        let mboutput = document.getElementById("mbs");
+
+        let imageLink = "https://source.unsplash.com/random?topics=nature";
+
+        image.onload = async function () {
+            endTime = new Date().getTime();
+
+            await fetch(imageLink).then((response) => {
+                imageSize = response.headers.get("content-length");
+                calculateSpeed();
+            });
+        };
+
+        function calculateSpeed() {
+            let timeDuration = (endTime - startTime) / 1000;
+
+            let loadedBits = imageSize * 8;
+            let speedInBps = (loadedBits / timeDuration).toFixed(2);
+            let speedInKbps = (speedInBps / 1024).toFixed(2);
+            let speedInMbps = (speedInKbps / 1024).toFixed(2);
+
+            kboutput.innerHTML = `<span style="font-weight: bold">${speedInKbps} </span>kbps`;
+            mboutput.innerHTML = `<span style="font-weight: bold">${speedInMbps} </span>mbps`;
+        }
+
+        const init = async () => {
+            startTime = new Date().getTime();
+            image.src = imageLink;
+        };
+
+        window.onload = () => init();
+
+    </script>
+</body>
+
+</html>

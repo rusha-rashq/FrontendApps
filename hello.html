@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Genre Explorer</title>
+    <style>
+            body {
+                font-family: Arial, sans-serif;
+                text-align: center;
+                padding: 20px;
+            }
+
+            #genre-select, #search-btn {
+                margin: 10px;
+            }
+
+            #results {
+                margin-top: 20px;
+            }
+        </style>
+</head>
+<body>
+    <h1>Anime Genre Explorer</h1>
+    <select id="genre-select">
+        <!-- Options will be populated here -->
+    </select>
+    <button id="search-btn">Search</button>
+    <div id="results">
+        <!-- Results will be displayed here -->
+    </div>
+    <script>
+        document.getElementById('search-btn').addEventListener('click', function() {
+            const genre = document.getElementById('genre-select').value;
+            fetch(`https://api.jikan.moe/v4/anime?genres=${genre}`)
+                .then(response => response.json())
+                .then(data => displayResults(data));
+        });
+
+        function displayResults(data) {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = ''; // Clear previous results
+            data.data.forEach(anime => {
+                const animeDiv = document.createElement('div');
+                animeDiv.innerHTML = `
+                    <h3>${anime.title}</h3>
+                    <img src="${anime.images.jpg.image_url}" alt="${anime.title}">
+                    <p>${anime.synopsis}</p>
+                `;
+                resultsDiv.appendChild(animeDiv);
+            });
+        }
+
+
+
+
+
+    </script>
+</body>
+</html>

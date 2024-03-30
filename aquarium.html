@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ASCII Aquarium</title>
+    <style>
+    	body {
+            background: #def;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app-container {
+            display: flex;
+            background: #87b6dd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        #control-panel {
+            padding: 20px;
+            background: #eee;
+            border-right: 1px solid #ddd;
+        }
+
+        #control-panel h1 {
+            margin: 0 0 20px 0;
+        }
+
+        #control-panel button {
+            display: block;
+            margin-bottom: 10px;
+            padding: 10px;
+            background: #0cf;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #aquarium {
+            flex-grow: 1;
+            padding: 20px;
+            font-family: 'Courier New', monospace;
+            line-height: 1;
+            letter-spacing: 0;
+            white-space: pre;
+            overflow: auto;
+        } 
+    </style>
+</head>
+<body>
+    <div id="app-container">
+        <div id="control-panel">
+            <h1>Interactive Aquarium</h1>
+            <button id="add-fish">Add Fish</button>
+            <button id="add-bubble">Add Bubble</button>
+            <button id="add-seaweed">Add Seaweed</button>
+            <!-- add more controls as needed -->
+        </div>
+        <div id="aquarium"></div>
+    </div>
+
+    <script>
+    	// Define our aquarium dimensions
+        const AQUARIUM_WIDTH = 80;  // characters
+        const AQUARIUM_HEIGHT = 30; // lines
+
+        // Define our elements
+        const FISH = "><(((('>";
+        const SEAWEED = "\\|/";
+        const BUBBLE = "o";
+
+        // Define our element array
+        let elements = [];
+
+        // Set up our aquarium - an array of strings
+        let aquarium = [];
+        for (let i = 0; i < AQUARIUM_HEIGHT; i++) {
+            aquarium[i] = ' '.repeat(AQUARIUM_WIDTH);
+        }
+
+        // Function to draw the aquarium
+        function drawAquarium() {
+            // Clear the aquarium
+            for (let i = 0; i < AQUARIUM_HEIGHT; i++) {
+                aquarium[i] = ' '.repeat(AQUARIUM_WIDTH);
+            }
+
+            // Draw each element in its position
+            for (let element of elements) {
+                let start = element.x;
+                let line = element.y;
+                let ascii = element.ascii;
+                aquarium[line] = aquarium[line].substring(0, start) + ascii + aquarium[line].substring(start + ascii.length);
+            }
+
+            // Update the aquarium div
+            document.getElementById('aquarium').textContent = aquarium.join('\n');
+        }
+
+        // Function to add an element
+        function addElement(type) {
+            let x, y, ascii;
+
+            switch (type) {
+                case 'fish':
+                    ascii = FISH;
+                    x = Math.floor(Math.random() * (AQUARIUM_WIDTH - ascii.length));
+                    y = Math.floor(Math.random() * AQUARIUM_HEIGHT);
+                    break;
+                case 'seaweed':
+                    ascii = SEAWEED;
+                    x = Math.floor(Math.random() * AQUARIUM_WIDTH);
+                    y = Math.floor(Math.random() * AQUARIUM_HEIGHT);
+                    break;
+                case 'bubble':
+                    ascii = BUBBLE;
+                    x = Math.floor(Math.random() * AQUARIUM_WIDTH);
+                    y = Math.floor(Math.random() * AQUARIUM_HEIGHT);
+                    break;
+            }
+
+            // Add the new element to the array
+            elements.push({
+                x: x,
+                y: y,
+                ascii: ascii
+            });
+        }
+
+        // Add event listeners to the buttons
+        document.getElementById('add-fish').addEventListener('click', function() { addElement('fish'); });
+        document.getElementById('add-seaweed').addEventListener('click', function() { addElement('seaweed'); });
+        document.getElementById('add-bubble').addEventListener('click', function() { addElement('bubble'); });
+
+        // Update the aquarium every 200ms
+        setInterval(drawAquarium, 200);
+    </script>
+</body>
+</html>

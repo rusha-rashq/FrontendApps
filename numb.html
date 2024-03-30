@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leetspeak Translator</title>
+    <!-- Materialize CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #dcb2d7; 
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #app {
+            background-color: #edca93; 
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        button.btn {
+            background-color: #092c31; 
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="container">
+        <h1 class="center-align">Leetspeak Translator</h1>
+
+        <div class="input-field">
+            <textarea v-model="inputText" id="input_text" class="materialize-textarea"></textarea>
+            <label for="input_text">Enter your text</label>
+        </div>
+
+        <div class="center-align">
+            <button class="btn waves-effect waves-light" @click="translate">Translate</button>
+        </div>
+
+        <div class="input-field">
+            <textarea v-model="translatedText" id="translated_text" class="materialize-textarea" readonly></textarea>
+            <label for="translated_text">Translated text</label>
+        </div>
+    </div>
+
+    <!-- Vue.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <!-- Materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script>
+        new Vue({
+            el: '#app',
+            data: {
+                inputText: '',
+                translatedText: ''
+            },
+            methods: {
+                translate() {
+                    // Simple leetspeak translation
+                    const leetMap = {
+                        'a': '4',
+                        'b': '8',
+                        'c': '<',
+                        'e': '3',
+                        'g': '9',
+                        'i': '1',
+                        'o': '0',
+                        's': '$',
+                        't': '7',
+                        'z': '2'
+                    };
+
+                    if(this.translatedText === this.inputText) {
+                        // Revert it back
+                        this.translatedText = this.inputText.split('').map(char => {
+                            for(let key in leetMap) {
+                                if(leetMap[key] === char.toLowerCase()) {
+                                    return key;
+                                }
+                            }
+                            return char;
+                        }).join('');
+                    } else {
+                        // Translate to leetspeak
+                        this.translatedText = this.inputText.split('').map(char => leetMap[char.toLowerCase()] || char).join('');
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

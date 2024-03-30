@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voronoi Diagram</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        #canvas-container {
+            background-color: black;
+            color: white;
+            position: relative;
+        }
+
+        canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card {
+            height: 80vh;
+        }
+    </style>
+</head>
+
+<body class="bg-light">
+
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-header">
+                <h1>Voronoi Diagram</h1>
+            </div>
+            <div class="card-body p-0" id="canvas-container">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    
+    <script>
+    	  const canvas = document.getElementById("canvas");
+          const ctx = canvas.getContext("2d");
+
+          let points, tris, loose;
+
+          function setup() {
+            let centerX = canvas.width / 2;
+            let centerY = canvas.height / 2;
+
+            let radius = 0.5 * canvas.width * Math.sqrt(3) + centerY;
+            let apothem = radius / 2;
+
+            let v1Y = centerY - radius;
+            let v1X = centerX;
+            let v23Y = centerY + apothem;
+            let v2X = centerX - apothem * Math.sqrt(3);
+            let v3X = centerX + apothem * Math.sqrt(3);
+
+            points = [
+              new Point(v1X,v1Y),
+              new Point(v2X,v23Y),
+              new Point(v3X,v23Y)
+            ];
+            tris = [ new Triangle(points[0],points[1],points[2]) ];
+
+            ctx.lineJoin = 'round';
+
+            for (let i = 0; i < 20; i++) {
+              let p = new Point(
+                Math.random() * canvas.width,
+                Math.random() * canvas.height
+              );
+              points.push(p);
+              triangulate(p);
+            }
+          }
+
+          function triangulate(p) {
+            loose = [p];
+            for (const t of tris) if (t.checkIntersect(p)) {
+              loose = [].concat(loose,t.points);
+              t.disable = true;
+            }
+            loose = Array.from(new Set(loose));
+
+            for (let i = 0; i < loose.length; i++) 
+              for(let j = i+1; j < loose.length; j++) 
+                for(let k = j+1; k < loose.length; k++) {
+                  let temp = new Triangle(loose[i],loose[j],loose[k]);
+                  for (const p of points) if (temp.checkIntersect(p)) {
+                    temp.disable = true;
+                    break;
+                  }
+                  if (!temp.disable) tris.push(temp);
+                }
+
+            tris = tris.filter(function(t) { return !t.disable; });
+
+            for (const s of tris) {
+              for (const t of tris)
+                if (s != t && !s.adjacents.includes(t) && s.checkAdjacency(t))
+                      s.adjacents.push(t);
+              for (a in s.adjacents)
+                if (s.adjacents[a].disable)
+                  s.adjacents.splice(a,1);
+            }
+
+          }
+
+          function drawDiagram() {
+            ctx.fillStyle = "#616161";
+            ctx.fillRect(0,0,canvas.width,canvas.height);
+
+            ctx.strokeStyle = '#DDD';
+            ctx.lineWidth = 2;  
+            for (const t of tris) t.draw();
+
+            ctx.fillStyle = '#DDD';
+            for (const p of points) p.draw();
+          }
+
+          function drawCircle(c,r) {
+            ctx.beginPath();
+            ctx.arc(c.x,c.y,r,0,2*Math.PI);
+            ctx.stroke();
+          }
+          class Point {
+            constructor(x,y) {
+              this.x = x;
+              this.y = y;
+              this.hue = Math.floor(Math.random() * 360);
+            }
+            draw() {
+              ctx.fillStyle = 'hsl('+this.hue+',50%,50%)';
+              ctx.beginPath();
+              ctx.arc(this.x,this.y,5,0,2*Math.PI);
+              ctx.fill();
+              ctx.stroke();
+            }
+            distanceTo(other) {
+              return Math.sqrt(
+                (this.x - other.x) * (this.x - other.x) +
+                (this.y - other.y) * (this.y - other.y)
+              );
+            }
+          }
+
+          class Triangle {
+            constructor(a,b,c) {
+              this.points = [a,b,c];
+              this.centroid = this.getCentroid();
+              this.radius = Math.floor(this.centroid.distanceTo(a));
+              this.hue = Math.round(Math.random() * 360);
+              this.disable = false;
+              this.adjacents = [];
+            }
+            draw() {
+              ctx.fillStyle = 'hsl('+this.hue+',75%,50%)';
+              ctx.beginPath();
+              for (const a of this.adjacents) {
+                ctx.moveTo(this.centroid.x,this.centroid.y);
+                ctx.lineTo(a.centroid.x,a.centroid.y);
+              }
+              ctx.fill();
+              ctx.stroke();
+            }
+            checkIntersect(p) {
+              return this.centroid.distanceTo(p) < this.radius;
+            }
+            checkAdjacency(t) {
+              return new Set(this.points.concat(t.points)).size == 4;
+            }
+            getCentroid() { 
+              let midX1 = (this.points[0].x + this.points[1].x) / 2;
+              let midY1 = (this.points[0].y + this.points[1].y) / 2;
+              let midX2 = (this.points[1].x + this.points[2].x) / 2;
+              let midY2 = (this.points[1].y + this.points[2].y) / 2;
+              let midX3 = (this.points[2].x + this.points[0].x) / 2;
+              let midY3 = (this.points[2].y + this.points[0].y) / 2;
+
+              let slope1 =
+                  - (this.points[1].x - this.points[0].x) /
+                  (this.points[1].y - this.points[0].y);
+              let slope2 =
+                  - (this.points[2].x - this.points[1].x) /
+                  (this.points[2].y - this.points[1].y);
+              let slope3 =
+                  - (this.points[0].x - this.points[2].x) /
+                  (this.points[0].y - this.points[2].y);
+
+              let slopeA, slopeB, midA, midB;
+
+              if (!isFinite(slope1)) {
+                slopeA = slope2;
+                slopeB = slope3;
+                midA = new Point(midX2,midY2);
+                midB = new Point(midX3,midY3);
+              } else if (!isFinite(slope2)) {
+                slopeA = slope1;
+                slopeB = slope3;
+                midA = new Point(midX1,midY1);
+                midB = new Point(midX3,midY3);
+              } else {
+                slopeA = slope1;
+                slopeB = slope2;
+                midA = new Point(midX1,midY1);
+                midB = new Point(midX2,midY2);
+              }
+
+              let x = (slopeA * midA.x - midA.y - slopeB * midB.x + midB.y) / (slopeA - slopeB);
+              let y = slopeA * (x - midA.x) + midA.y;
+
+              return new Point(x,y);
+            }
+          }
+
+          window.onload = window.onresize = function() {
+            const scale = window.devicePixelRatio;
+            canvas.width = window.innerWidth * scale;
+            canvas.height = window.innerHeight * scale;
+            ctx.scale(scale, scale);
+
+            setup();
+            drawDiagram();
+          }
+
+          window.onclick = function(event) {
+            let p = new Point(event.clientX, event.clientY);
+            points.push(p);
+            triangulate(p);
+            drawDiagram();
+            for (const n of points) triangulate(n);
+            drawDiagram();
+          }
+    </script>
+
+</body>
+
+</html>

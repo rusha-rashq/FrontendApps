@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Election Result Visualizer</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <style>
+    	h1{
+        	text-align: center;
+        }
+        canvas{
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+        .chart-container {
+            margin: 20px auto;
+            width: 80%;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+	<h1>Election Result Visualizer</h1>
+    <div class="container">
+        <div class="chart-container">
+            <h2>Election Results</h2>
+            <canvas id="electionChart"></canvas>
+        </div>
+
+        <div class="chart-container">
+            <h2>Approval Rating</h2>
+            <canvas id="approvalChart"></canvas>
+        </div>
+    </div>
+    
+    <script>
+        var ctx1 = document.getElementById('electionChart').getContext('2d');
+          var electionChart = new Chart(ctx1, {
+              type: 'bar',
+              data: {
+                  labels: ['Candidate A', 'Candidate B'],
+                  datasets: [{
+                      label: 'Votes',
+                      data: [2300000, 2100000],
+                      backgroundColor: [
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(255, 99, 132, 0.2)'
+                      ],
+                      borderColor: [
+                          'rgba(54, 162, 235, 1)',
+                          'rgba(255, 99, 132, 1)'
+                      ],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+
+          var ctx2 = document.getElementById('approvalChart').getContext('2d');
+          var approvalChart = new Chart(ctx2, {
+              type: 'line',
+              data: {
+                  labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                  datasets: [{
+                      label: 'Approval Rating Candidate A (%)',
+                      data: [56, 58, 57, 55, 54, 56],
+                      backgroundColor: [
+                          'rgba(75, 192, 192, 0.2)'
+                      ],
+                      borderColor: [
+                          'rgba(75, 192, 192, 1)'
+                      ],
+                      borderWidth: 1
+                  },
+                  {
+                      label: 'Approval Rating Candidate B (%)',
+                      data: [50, 52, 51, 53, 52, 54],
+                      backgroundColor: [
+                          'rgba(255, 159, 64, 0.2)'
+                      ],
+                      borderColor: [
+                          'rgba(255, 159, 64, 1)'
+                      ],
+                      borderWidth: 1
+                  }]
+              },
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          });
+    </script>
+
+</body>
+</html>

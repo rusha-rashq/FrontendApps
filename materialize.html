@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expand/Collapse</title>
+
+    <!-- Materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- Include jQuery and then Materialize JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <!-- JavaScript functions -->
+    <script>
+        function expandAll(){
+            $('.collapsible').collapsible('open');
+        }
+
+        function collapseAll(){
+            $('.collapsible').collapsible('close');
+        }
+    </script>
+</head>
+<body>
+
+<div class="container">
+    <br /><br />
+    <a class="waves-effect waves-light btn" onClick="expandAll();"><i class="material-icons left">fullscreen</i>Expand All</a>
+    <a class="waves-effect waves-light btn" onClick="collapseAll();"><i class="material-icons left">fullscreen_exit</i>Collapse All</a>
+    <br /><br />
+    <ul class="collapsible">
+        <li>
+            <div class="collapsible-header"><i class="mdi-navigation-chevron-right"></i><a name="987"/>First</a></div>
+            <div class="collapsible-body"><p>This is the first statement</p></div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="mdi-navigation-chevron-right"></i>Second</div>
+            <div class="collapsible-body"><p>This is the second statement</p></div>
+        </li>
+        <li>
+            <div class="collapsible-header"><i class="mdi-navigation-chevron-right"></i>Third</div>
+            <div class="collapsible-body"><p>This is the third statement</p></div>
+        </li>
+    </ul>
+</div>
+
+<!-- Initialize Materialize components -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        $('.collapsible').collapsible();
+    });
+</script>
+
+</body>
+</html>

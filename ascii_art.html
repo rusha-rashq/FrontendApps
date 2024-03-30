@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ASCII Art</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: #181818;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+        }
+
+        #imageUpload {
+            display: none;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2em;
+            background: #282828;
+            padding: 2em;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .upload-label {
+            padding: 10px 20px;
+            background-color: #5865F2;
+            color: #ffffff;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .upload-label:hover {
+            background-color: #4B5FE2;
+        }
+
+        #asciiContainer {
+            width: auto;
+            min-width: 370px;
+            overflow-x: auto;
+            font-size: 5px;
+            line-height: 5px;
+            white-space: nowrap;
+            font-family: 'Courier';
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <label for="imageUpload" class="upload-label">Upload an Image</label>
+        <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg">
+        <div id="asciiContainer"></div>
+    </div>
+
+    <script>
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            let canvas = document.createElement('canvas');
+            let ctx = canvas.getContext('2d');
+            let img = new Image();
+            img.src = URL.createObjectURL(e.target.files[0]);
+            img.onload = function() {
+                // Resize image to desired ratio for ASCII art
+                let scaleFactor = 0.1;
+                canvas.width = img.width * scaleFactor;
+                canvas.height = img.height * scaleFactor;
+                // Draw resized image to canvas
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                let ascii = '';
+                for(let y = 0; y < canvas.height; y++) {
+                    for(let x = 0; x < canvas.width; x++) {
+                        // Map pixel brightness to ASCII characters
+                        let pixel = ctx.getImageData(x, y, 1, 1).data;
+                        let brightness = (pixel[0] + pixel[1] + pixel[2]) / 3 / 255;
+                        let asciiChars = "@%#*+=-:. ";
+                        let char = asciiChars[Math.floor(brightness * asciiChars.length)];
+                        ascii += '<span style="color:rgb(' + pixel[0] + ',' + pixel[1] + ',' + pixel[2] + ')">' + char + '</span>';
+                    }
+                    ascii += '<br>';
+                }
+                document.getElementById('asciiContainer').innerHTML = ascii;
+            }
+        });
+
+    </script>
+</body>
+</html>

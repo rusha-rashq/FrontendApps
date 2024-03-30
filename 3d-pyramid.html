@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>3D Rotating Pyramid</title>
+
+<style>
+    /* Global reset: Setting the default margin, padding, and box-sizing for all elements */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    /* Body styling: Setting the background, ensuring it fills the viewport, centering content, and hiding overflow */
+    body {
+        background: #000;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    /* Pyramid styling: Defining the size, position, and enabling 3D transformations */
+    .pyramid {
+        position: relative;
+        width: 500px;
+        height: 500px;
+        transform-style: preserve-3d;
+        transform: rotateX(-20deg) rotateY(30deg);
+        animation: animate 6s linear infinite; /* Applying continuous rotation animation */
+    }
+
+    /* Keyframes for pyramid animation: Rotates around the Y-axis */
+    @keyframes animate {
+        0% {
+            transform: rotateX(-20deg) rotateY(-360deg);
+        }
+        100% {
+            transform: rotateX(-20deg) rotateY(0deg);
+        }
+    }
+
+    /* Styling for each face of the pyramid */
+    .pyramid div {
+        position: absolute;
+        top: -90px;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+    }
+
+    /* Applying gradient and shaping each face as a triangle */
+    .pyramid div.top span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        background: linear-gradient(300deg, #00ffff, #00ff84, #b121ff, #0095ff);
+        clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        transform-origin: bottom;
+        transform: rotateY(calc(90deg * var(--i))) translateZ(250px) rotateX(30deg); /* Positioning and rotating each face */
+    }
+</style>
+</head>
+<body>
+    <div class="pyramid">
+        <div class="top">
+            <!-- Defining individual faces of the pyramid with CSS variable for transformations -->
+            <span style="--i:0;"></span>
+            <span style="--i:1;"></span>
+            <span style="--i:2;"></span>
+            <span style="--i:3;"></span>
+        </div>
+    </div>
+</body>
+</html>

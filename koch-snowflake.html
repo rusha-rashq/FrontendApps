@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Koch Snowflake</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #canvas {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+    <script>
+        var canvas = document.getElementById('canvas');
+        var ctx = canvas.getContext('2d');
+
+        function drawKochCurve(iterations, length) {
+            if (iterations === 0) {
+                ctx.beginPath();
+                ctx.arc(0, 0, 1, 0, 2 * Math.PI); 
+                ctx.fillStyle = "blue";  
+                ctx.fill();
+                ctx.translate(length, 0);
+            } else {
+                iterations--;
+
+                drawKochCurve(iterations, length / 3);  
+                ctx.rotate(-Math.PI / 3);   
+                drawKochCurve(iterations, length / 3);
+                ctx.rotate(2 * Math.PI / 3);
+                drawKochCurve(iterations, length / 3);
+                ctx.rotate(-Math.PI / 3);
+                drawKochCurve(iterations, length / 3);
+            }
+        }
+
+        function drawKochSnowflake(iterations, length) {
+            ctx.save();
+            ctx.translate(canvas.width / 2, canvas.height / 2); 
+            ctx.scale(1, -1);
+            for (let i = 0; i < 3; i++) {
+                ctx.beginPath();
+                ctx.moveTo(-length / 2, 0);
+                drawKochCurve(iterations, length);
+                ctx.rotate(2 * Math.PI / 3);
+            }
+            ctx.scale(1, -1); // Restore the original y-axis orientation
+            ctx.restore();
+        }
+
+        function resizeCanvas() {
+            // Make the canvas responsive
+            const size = Math.min(window.innerWidth, window.innerHeight);
+            canvas.width = size;
+            canvas.height = size;
+
+            // Clear the canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw the Koch snowflake
+            drawKochSnowflake(5, size * 0.375); // Adjust snowflake size according to canvas size
+        }
+
+        // Initial canvas resize
+        resizeCanvas();
+
+        // Resize the canvas whenever the window size changes
+        window.addEventListener('resize', resizeCanvas);
+    </script>
+</body>
+</html>
+

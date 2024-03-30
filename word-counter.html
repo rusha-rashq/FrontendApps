@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Font Awesome Icons  -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+        crossorigin="anonymous" />
+
+    <!-- Google Fonts  -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f6d6b0;
+            color: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            display: flex;
+            background: linear-gradient(90deg, #9e906b, #362424);
+            color: white;
+            flex-direction: column;
+            align-items: center;
+            border: 2px solid rgb(29, 18, 3);
+            padding: 40px;
+            border-radius: 20px;
+            width: 30rem;
+        }
+
+        .message {
+            border: 2px solid rgb(2, 14, 18);
+            width: 350px;
+            border-radius: 7px;
+            padding: 8px;
+            margin-top: 4px;
+            outline: none;
+        }
+    </style>
+
+    <title>Word Counter</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Word Counter</h1>
+        <textarea name="message" class="message" id="message" cols="50" rows="5" placeholder="Enter a message"
+            oninput="updateCount()"></textarea>
+
+        <p>
+            <span id="word-count">0</span> words |
+            <span id="character-count">0</span> characters
+        </p>
+    </div>
+
+    <script>
+        const updateCount = () => {
+            let message = document.getElementById("message").value;
+
+            let wordCount = (message).split(' ').length
+
+            document.getElementById("word-count").innerText = wordCount;
+            document.getElementById("character-count").innerText = message.length;
+        };
+    </script>
+</body>
+
+</html>

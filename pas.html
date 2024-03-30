@@ -1,0 +1,85 @@
+<html>
+
+<head>
+    <title>Password Generator</title>
+    <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+    <style>
+        body {
+            background-color: #f9f9f9;
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: large;
+            padding: 40px 0;
+        }
+
+        h1 {
+            background-color: lightcoral;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+        }
+
+        #output {
+            background-color: #f1f1f1;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+            display: none;  /* Hidden by default, shown after password generation */
+        }
+
+        input, button {
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin: 5px 0;
+        }
+    </style>
+    
+    <!---pyodide--> 
+    <py-env>
+        - string
+        - random
+    </py-env>
+</head>
+
+<body>
+    <h1>Password Generator</h1>
+    
+    <label for="passwordLength">Enter password length:</label>
+    <input type="number" id="passwordLength">
+    <button onclick="generatePassword()">Generate Password</button>
+
+    <div id="output"></div>
+    <py-script>
+        def generate_password(length):
+            import string
+            import random
+
+            s1 = string.ascii_lowercase
+            s2 = string.ascii_uppercase
+            s3 = string.digits
+            s4 = string.punctuation
+
+            s = []
+            s.extend(list(s1))
+            s.extend(list(s2))
+            s.extend(list(s3))
+            s.extend(list(s4))
+
+            random.shuffle(s)
+            return "".join(s[0:length])
+
+        def generatePassword():
+            pl = int(document.getElementById('passwordLength').value)
+            password = generate_password(pl)
+            document.getElementById('output').innerText = "Your password is: " + password
+            document.getElementById('output').style.display = 'block'
+
+        window.generatePassword = generatePassword
+    </py-script>
+</body>
+
+</html>

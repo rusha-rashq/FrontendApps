@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Orthogonal Matrix Checker</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    
+    <style>
+        body {
+            background-color: #212121;
+            color: #fff;
+        }
+
+        .input-field label {
+            color: #bbb !important;
+        }
+
+        .input-field input:focus + label {
+            color: #fff !important;
+        }
+
+        .input-field input {
+        	color: #fff;
+            border-bottom: 1px solid #bbb !important;
+            box-shadow: 0 1px 0 0 #bbb !important;
+        }
+
+        .input-field input[type=text]:focus,
+        .input-field input[type=number]:focus {
+        	color: #fff;
+            border-bottom: 1px solid #fff !important;
+            box-shadow: 0 1px 0 0 #fff !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h4>Orthogonal Matrix Checker</h4>
+
+    <div class="input-field">
+        <input type="number" id="rows" min="1">
+        <label for="rows">Number of Rows</label>
+    </div>
+
+    <div class="input-field">
+        <input type="number" id="cols" min="1">
+        <label for="cols">Number of Columns</label>
+    </div>
+
+    <button class="btn waves-effect waves-light" onclick="generateMatrixFields()">Generate Matrix Input</button>
+
+    <div id="matrixInput"></div>
+
+    <button class="btn waves-effect waves-light" onclick="checkOrthogonal()">Check</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+    function generateMatrixFields() {
+        const numRows = parseInt(document.getElementById('rows').value);
+        const numCols = parseInt(document.getElementById('cols').value);
+        const matrixDiv = document.getElementById('matrixInput');
+        matrixDiv.innerHTML = '';
+
+        for (let i = 0; i < numRows; i++) {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'row';
+
+            for (let j = 0; j < numCols; j++) {
+                const inputDiv = document.createElement('div');
+                inputDiv.className = 'input-field col s2';
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.id = `cell-${i}-${j}`;
+                inputDiv.appendChild(input);
+                rowDiv.appendChild(inputDiv);
+            }
+
+            matrixDiv.appendChild(rowDiv);
+        }
+    }
+
+    function transpose(matrix) {
+        return matrix[0].map((_, colIndex) => matrix.map(row => row[colIndex]));
+    }
+
+    function matrixMultiply(A, B) {
+        let result = [];
+        for(let i = 0; i < A.length; i++) {
+            result[i] = [];
+            for(let j = 0; j < B[0].length; j++) {
+                result[i][j] = 0;
+                for(let k = 0; k < A[0].length; k++) {
+                    result[i][j] += A[i][k] * B[k][j];
+                }
+            }
+        }
+        return result;
+    }
+
+    function isIdentity(matrix) {
+        for(let i = 0; i < matrix.length; i++) {
+            for(let j = 0; j < matrix[i].length; j++) {
+                if((i === j && matrix[i][j] !== 1) || (i !== j && matrix[i][j] !== 0)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    function checkOrthogonal() {
+        const numRows = parseInt(document.getElementById('rows').value);
+        const numCols = parseInt(document.getElementById('cols').value);
+        if (numRows !== numCols) {
+            document.getElementById('result').innerText = "The matrix should be square.";
+            return;
+        }
+        let matrix = [];
+        for (let i = 0; i < numRows; i++) {
+            let row = [];
+            for (let j = 0; j < numCols; j++) {
+                row.push(parseFloat(document.getElementById(`cell-${i}-${j}`).value));
+            }
+            matrix.push(row);
+        }
+
+        const matrixT = transpose(matrix);
+        const result = matrixMultiply(matrix, matrixT);
+        
+        if(isIdentity(result)) {
+            document.getElementById('result').innerText = "The matrix is orthogonal.";
+        } else {
+            document.getElementById('result').innerText = "The matrix is not orthogonal.";
+        }
+    }
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+</body>
+</html>

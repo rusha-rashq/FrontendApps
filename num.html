@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smiley Studio</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <style>
+    	body, html {
+        	background-color: rgb(118, 213, 189);
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .smiley {
+            width: 200px;
+            height: 200px;
+            background-color: #FFDD67;
+            border-radius: 50%;
+            position: relative;
+            margin: 20px auto;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .eye {
+            width: 30px;
+            height: 30px;
+            background-color: #000;
+            border-radius: 50%;
+            position: absolute;
+            top: 60px;
+        }
+
+        .left-eye {
+            left: 50px;
+        }
+
+        .right-eye {
+            right: 50px;
+        }
+
+        .happy .left-eye {
+            transform: translateY(-10px);
+        }
+
+        .happy .right-eye {
+            transform: translateY(-10px);
+        }
+
+        .sad .left-eye {
+            transform: translateY(10px);
+        }
+
+        .sad .right-eye {
+            transform: translateY(10px);
+        }
+
+        .mouth {
+            width: 100px;
+            position: absolute;
+            bottom: 60px;
+            left: 50px;
+            border: 5px solid black;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            border-radius: 0 0 50px 50px;
+            height: 40px;
+        }
+
+        .frown {
+            transform: rotate(180deg);
+            bottom: 60px;
+        }
+
+        .straight {
+            border-radius: 0;
+            height: 5px;
+            bottom: 85px;
+            border: none;
+            background-color: black;
+        }
+
+
+    </style>
+</head>
+<body>
+    <section id="app" class="hero is-primary is-fullheight-with-navbar">
+        <div class="hero-body">
+            <div class="container has-text-centered">
+                <h1 class="title is-1">Smiley Studio</h1>
+
+                <!-- Smiley face -->
+                <div class="box smiley m-auto">
+                    <div class="eyes">
+                        <div :class="['eye', 'left-eye', eyeShape]"></div>
+                        <div :class="['eye', 'right-eye', eyeShape]"></div>
+                    </div>
+                    <div :class="['mouth', mouthShape]"></div>
+                </div>
+
+                <!-- Customization Controls -->
+                <div class="columns is-centered">
+                    <div class="column is-one-quarter">
+                        <div class="field">
+                            <label class="label">Eyes Shape</label>
+                            <div class="control">
+                                <div class="select is-fullwidth is-rounded">
+                                    <select v-model="eyeShape">
+                                        <option value="normal">Normal</option>
+                                        <option value="happy">Happy</option>
+                                        <option value="sad">Sad</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="column is-one-quarter">
+                        <div class="field">
+                            <label class="label">Mouth Shape</label>
+                            <div class="control">
+                                <div class="select is-fullwidth is-rounded">
+                                    <select v-model="mouthShape">
+                                        <option value="smile">Smile</option>
+                                        <option value="straight">Straight</option>
+                                        <option value="frown">Frown</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VueJS and main.js -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.js"></script>
+    <script>
+    	new Vue({
+            el: '#app',
+            data: {
+                eyeShape: 'normal',
+                mouthShape: 'smile'
+            }
+        });
+
+    
+    </script>
+</body>
+</html>

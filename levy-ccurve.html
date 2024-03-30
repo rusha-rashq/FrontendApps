@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { background-color: #000; }
+        canvas { display: block; margin: 50px auto; background-color: #fff; }
+    </style>
+    <title>Levy C-Curve</title>
+</head>
+<body>
+    <canvas id="canvas"></canvas>
+
+    <script>
+        let canvas = document.getElementById('canvas');
+        let ctx = canvas.getContext('2d');
+
+        let w = window.innerWidth;
+        let h = window.innerHeight;
+
+        canvas.width = w;
+        canvas.height = h;
+
+        function drawLine(x1, y1, x2, y2) {
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
+        }
+
+        function levyCcurve(x1, y1, x2, y2, depth) {
+            if (depth === 0) {
+                drawLine(x1, y1, x2, y2);
+            } else {
+                let dx = x2 - x1;
+                let dy = y2 - y1;
+                let x = (dx - dy) / 2 + x1;
+                let y = (dx + dy) / 2 + y1;
+
+                levyCcurve(x1, y1, x, y, depth - 1);
+                levyCcurve(x, y, x2, y2, depth - 1);
+            }
+        }
+
+        let length = Math.min(w, h) * 0.3;
+        let xStart = w / 2 - length / 2;
+        let yStart = h / 2;
+        let xEnd = w / 2 + length / 2;
+        let yEnd = h / 2;
+
+        levyCcurve(xStart, yStart, xEnd, yEnd, 16);
+    </script>
+</body>
+</html>

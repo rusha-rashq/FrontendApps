@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Geometric Shape Generator</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+    	body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        #canvas {
+            border: 1px solid black;
+            background-color: #f0f0f0;
+            margin: 0 auto;
+            display: block;
+        }
+
+        #shapeForm {
+            margin-top: 20px;
+        }
+
+    </style>
+</head>
+<body class="bg-light">
+    <div class="container py-5">
+        <h1 class="text-center mb-4">Geometric Shape Generator</h1>
+
+        <div id="canvasContainer" class="mb-4">
+            <canvas id="canvas" width="600" height="400"></canvas>
+        </div>
+
+        <form id="shapeForm" class="form-inline justify-content-center">
+            <label class="mr-2" for="shape">Choose a shape:</label>
+            <select class="form-control mr-2" id="shape" name="shape">
+              <option value="circle">Circle</option>
+              <option value="rectangle">Rectangle</option>
+              <option value="triangle">Triangle</option>
+            </select>
+
+            <label class="mr-2" for="parameters">Enter parameters:</label>
+            <input type="text" class="form-control mr-2" id="parameters" name="parameters" placeholder="radius for circle, width and height for rectangle, sides for triangle">
+            <button type="submit" class="btn btn-primary">Draw Shape</button>
+        </form>
+    </div>
+
+    <script>
+    	document.addEventListener('DOMContentLoaded', (event) => {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+
+            const shapeForm = document.getElementById('shapeForm');
+            shapeForm.addEventListener('submit', (event) => {
+                event.preventDefault();
+
+                const shape = document.getElementById('shape').value;
+                const parameters = document.getElementById('parameters').value.split(",").map(Number);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear previous shapes
+
+                switch(shape) {
+                    case 'circle':
+                        drawCircle(parameters[0]);
+                        break;
+                    case 'rectangle':
+                        drawRectangle(parameters[0], parameters[1]);
+                        break;
+                    case 'triangle':
+                        drawTriangle(parameters[0]);
+                        break;
+                }
+            });
+
+            function drawCircle(radius) {
+                ctx.beginPath();
+                ctx.arc(canvas.width / 2, canvas.height / 2, radius, 0, 2 * Math.PI);
+                ctx.stroke();
+            }
+
+            function drawRectangle(width, height) {
+                ctx.beginPath();
+                ctx.rect((canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
+                ctx.stroke();
+            }
+
+            function drawTriangle(side) {
+                let height = side * Math.sqrt(3) / 2;
+
+                let x1 = (canvas.width - side) / 2;
+                let y1 = (canvas.height + height) / 2;
+                let x2 = x1 + side;
+                let y2 = y1;
+                let x3 = (x1 + x2) / 2;
+                let y3 = y1 - height;
+
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.lineTo(x3, y3);
+                ctx.closePath();
+                ctx.stroke();
+            }
+        });
+
+    </script>
+</body>
+</html>

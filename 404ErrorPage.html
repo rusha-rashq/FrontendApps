@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random User Generator</title>
+    <style>
+        /* General body styles */
+        body {
+            font-family: Arial;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            height: 100vh;
+            background: linear-gradient(90deg, #8e5b46, #7b8120);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Styles for the main container */
+        .container {
+            background-color: #ffffff;
+            background: linear-gradient(to bottom right, #bb785d, #b8c22f);
+            border-radius: 15px;
+            width: 80%;
+            margin: 20px auto;
+            padding: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Styles for the main heading */
+        h1 {
+            margin-bottom: 20px;
+            color: #353434;
+        }
+
+        /* Styles for the profile picture and age thumbnails */
+        .ageImage {
+            width: autho;
+            height: auto;
+            border-radius: 50%;
+            margin-bottom: 5px;
+        }
+
+        #profilePicture {
+            max-width: 100%;
+            height: auto;
+            border-radius: 50%;
+            display: none;
+            margin: auto;
+            margin-bottom: 20px;
+        }
+
+        /* Styles for the button */
+        button {
+            background-color: #008CBA;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px 0;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #005f73;
+        }
+
+        /* Additional styles for user information display */
+        #userInfo {
+            text-align: center;
+            color: #363535;
+        }
+
+        .userInfoRow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 5px 0;
+        }
+
+        .userInfoRow img {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Main Container -->
+    <div class="container">
+
+        <!-- Heading -->
+        <h1>Random User Profile</h1>
+        <!-- Profile Picture -->
+        <img id="profilePicture" alt="Profile will be displayed here">
+        <!-- User Information -->
+        <div id="userInfo"></div>
+        <!-- Generate Profile Button -->
+        <button onclick="generateUser()">Generate New Profile</button>
+    </div>
+
+    <script>
+        //Function to get the age category image
+        function getAgeCategory(age) {
+            if (age <= 17) {
+                return 'tooyoung.png';
+            } else if (age >= 18 && age <= 65) {
+                return 'adult.png';
+            } else {
+                return 'old.png';
+            }
+        }
+
+        //Function to generate a new user
+        function generateUser() {
+            fetch('https://randomuser.me/api/')
+                .then(response => response.json())
+                .then(data => {
+                    const user = data.results[0];
+                    const image = document.getElementById('profilePicture');
+                    image.src = user.picture.large;
+                    image.style.display = 'block'; // Show the image
+
+                    const ageCategoryImage = getAgeCategory(user.dob.age);
+                    document.getElementById('userInfo').innerHTML = `
+                        <strong>Name:</strong> ${user.name.first} ${user.name.last}<br>
+                        <strong>Email:</strong> ${user.email}<br>
+                        <strong>Address:</strong> ${user.location.street.number} ${user.location.street.name}, ${user.location.city}, ${user.location.state}, ${user.location.country}, ${user.location.postcode}<br>
+                        <div class="userInfoRow"><strong>Date Of Birth:</strong> ${new Date(user.dob.date).toDateString()} (Age: ${user.dob.age})<img class="ageImage" src="${ageCategoryImage}" alt="Age Category"></div>
+                        <strong>Phone:</strong> ${user.phone}<br>
+                        <strong>Cell:</strong> ${user.cell}<br>
+                        <strong>UUID:</strong> ${user.login.uuid}<br>
+                        <strong>Username:</strong> ${user.login.username}<br>
+                        <strong>Password:</strong> ${user.login.password}
+                    `;
+                    // Show the age category image
+                    document.querySelector('.ageImage').style.display = 'inline';
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert('Error fetching data');
+                });
+        }
+    </script>
+</body>
+
+</html>
